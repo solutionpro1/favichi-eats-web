@@ -56,11 +56,11 @@ const categorizedMenu = {
     image: "/banner-pepper.jpg",
     fallbackBg: "from-amber-950 to-stone-900",
     items: [
-      { id: "ps1", name: "Goat Meat Pepper Soup", type: "variable", sizes: { "2.4L": 25000, "3.5L": 35000, "5L": 75000 } },
-      { id: "ps2", name: "Catfish Pepper Soup", type: "variable", sizes: { "2.4L": 25000, "3.5L": 35000, "5L": 75000 } },
-      { id: "ps3", name: "Chicken Pepper Soup", type: "variable", sizes: { "2.4L": 25000, "3.5L": 35000, "5L": 75000 } },
-      { id: "ps4", name: "Turkey Pepper Soup", type: "variable", sizes: { "2.4L": 25000, "3.5L": 35000, "5L": 75000 } },
-      { id: "ps5", name: "Cow Tail Pepper Soup", type: "variable", sizes: { "2.4L": 25000, "3.5L": 35000, "5L": 80000 } }
+      { id: "ps1", name: "Goat Meat Pepper Soup", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 55000 } },
+      { id: "ps2", name: "Catfish Pepper Soup", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 55000 } },
+      { id: "ps3", name: "Chicken Pepper Soup", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 55000 } },
+      { id: "ps4", name: "Turkey Pepper Soup", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 55000 } },
+      { id: "ps5", name: "Cow Tail Pepper Soup", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 55000 } }
     ]
   },
   "Rice Dishes": {
@@ -86,6 +86,20 @@ const categorizedMenu = {
       { id: "r15", name: "Ofada Rice", type: "variable", sizes: { "1.4L": 18000, "2.4L": 20000, "3.5L": 80000 } }
     ]
   },
+  "Swallow": {
+    title: "Fresh Swallow Options",
+    desc: "Soft, freshly prepared traditional swallow wrappers to pair seamlessly with your native soup bowls.",
+    image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=80",
+    fallbackBg: "from-yellow-700 to-amber-900",
+    items: [
+      { id: "sw1", name: "Eba", type: "flat", price: 500, unit: "wrap" },
+      { id: "sw2", name: "Amala", type: "flat", price: 1500, unit: "wrap" },
+      { id: "sw3", name: "Fufu", type: "flat", price: 500, unit: "wrap" },
+      { id: "sw4", name: "Pounded Yam", type: "flat", price: 1500, unit: "wrap" },
+      { id: "sw5", name: "Starch", type: "flat", price: 1500, unit: "wrap" },
+      { id: "sw6", name: "Semolina", type: "flat", price: 700, unit: "wrap" }
+    ]
+  },
   "Proteins & Extras": {
     title: "À La Carte Sides & Proteins",
     desc: "Layer your custom combinations with deeply spiced, freshly fried or wrapped choice meat and fish options.",
@@ -96,18 +110,18 @@ const categorizedMenu = {
       { id: "pr2", name: "Chicken Lap", type: "flat", price: 5000, unit: "piece" },
       { id: "pr3", name: "Turkey (Small)", type: "flat", price: 3500, unit: "piece" },
       { id: "pr4", name: "Turkey (Big)", type: "flat", price: 6500, unit: "piece" },
-      { id: "pr5", name: "Premium Beef", type: "flat", price: 2500, unit: "piece" },
-      { id: "pr6", name: "Goat Meat", type: "flat", price: 4000, unit: "piece" },
-      { id: "pr7", name: "Hake Fish", type: "flat", price: 4000, unit: "piece" },
-      { id: "pr8", name: "Croaker Fish", type: "flat", price: 5000, unit: "piece" },
-      { id: "pr9", name: "Titus Fish", type: "flat", price: 5000, unit: "piece" },
+      { id: "pr5", name: "Premium Beef", type: "flat", price: 1500, unit: "piece" },
+      { id: "pr6", name: "Goat Meat", type: "flat", price: 2000, unit: "piece" },
+      { id: "pr7", name: "Hake Fish", type: "flat", price: 2000, unit: "piece" },
+      { id: "pr8", name: "Croaker Fish", type: "flat", price: 3000, unit: "piece" },
+      { id: "pr9", name: "Titus Fish", type: "flat", price: 2000, unit: "piece" },
       { id: "pr10", name: "Smoked Panla Fish", type: "flat", price: 2000, unit: "piece" },
       { id: "pr11", name: "Kanda / Pomo", type: "flat", price: 1000, unit: "piece" },
       { id: "pr12", name: "Snail (Small)", type: "flat", price: 4000, unit: "piece" },
       { id: "pr13", name: "Snail (Big)", type: "flat", price: 7000, unit: "piece" },
       { id: "pr14", name: "Jumbo Prawns", type: "flat", price: 4000, unit: "piece (min. 5)" },
-      { id: "mm1", name: "Moi Moi (Fish & Eggs)", type: "flat", price: 3000, unit: "wrap (min. 5)" },
-      { id: "mm2", name: "Moi Moi (Full Egg)", type: "flat", price: 2500, unit: "wrap (min. 5)" }
+      { id: "mm1", name: "Moi Moi (Fish & Eggs)", type: "flat", price: 3000, unit: "wrap (Min 5 wraps)" },
+      { id: "mm2", name: "Moi Moi (Full Egg)", type: "flat", price: 2500, unit: "wrap (Min 5 wraps)" }
     ]
   },
   "Grills & Others": {
@@ -134,10 +148,79 @@ const categorizedMenu = {
     image: "/banner-combos.jpg",
     fallbackBg: "from-orange-950 to-rose-950",
     items: [
-      { id: "cb1", name: "20-Guest Catering Party Pack", type: "flat", price: 280000, unit: "Combo" },
-      { id: "cb2", name: "50-Guest Standard Buffet Combo", type: "flat", price: 550000, unit: "Combo" },
-      { id: "cb3", name: "50-Guest Premium Meal Combo", type: "flat", price: 750000, unit: "Combo" },
-      { id: "cb4", name: "Superior Banquet Combo (100-200 Guests)", type: "flat", price: 1750000, unit: "Combo" }
+      { 
+        id: "cb1", 
+        name: "Party Meals - 20 Guests", 
+        type: "flat", 
+        price: 280000, 
+        unit: "Combo",
+        includes: [
+          "5L Smokey Jollof Rice",
+          "5L Basmati Fried rice",
+          "5L Basmati Coconut Rice",
+          "10 Pcs of Chicken",
+          "10 Pcs of Hake fish",
+          "10 Pcs of Beef",
+          "10 wraps of moi moi",
+          "2.4L Egusi soup/Goat meat",
+          "10 wraps of pounded yam"
+        ]
+      },
+      { 
+        id: "cb2", 
+        name: "Standard Combo - 50 Guests", 
+        type: "flat", 
+        price: 550000, 
+        unit: "Combo",
+        includes: [
+          "10L cooler Smokey Jollof Rice",
+          "10L cooler Basmati fried rice",
+          "5L Basmati Coconut rice",
+          "20 Pcs of Chicken",
+          "20 Pcs of Hake fish",
+          "20 Pcs of beef",
+          "5L Egusi soup/Goat meat",
+          "2.5L Semolina",
+          "2.5L Pounded yam"
+        ]
+      },
+      { 
+        id: "cb3", 
+        name: "Premium Meal Combo - 50 Guests", 
+        type: "flat", 
+        price: 750000, 
+        unit: "Combo",
+        includes: [
+          "10L cooler Smokey Jollof Rice",
+          "10L cooler Basmati fried rice",
+          "10L cooler Asun Jollof",
+          "20 Pcs of Chicken",
+          "20 Pcs of Hake fish",
+          "20 Pcs of beef",
+          "10 wraps of moi moi",
+          "5L Egusi soup/Goat meat",
+          "5L Eforiro/Assorted meat"
+        ]
+      },
+      { 
+        id: "cb4", 
+        name: "Superior Combo - 100/200 Guests", 
+        type: "flat", 
+        price: 1750000, 
+        unit: "Combo",
+        includes: [
+          "30L cooler Smokey Jollof Rice",
+          "30L cooler Basmati fried rice",
+          "10L cooler Asun Jollof",
+          "80 Pcs of Chicken",
+          "80 Pcs of Hake fish",
+          "80 Pcs of beef",
+          "10L Egusi soup/Goat meat",
+          "10L Eforiro/Assorted meat",
+          "40 Pounded yam",
+          "40 Semolina"
+        ]
+      }
     ]
   }
 };
@@ -256,6 +339,17 @@ export default function Menu() {
                     )}
                   </div>
                   {item.note && <p className="text-[10px] text-orange-600 font-bold mt-1 uppercase">{item.note}</p>}
+                  
+                  {item.includes && (
+                    <ul className="mt-3 space-y-1 bg-slate-50 border border-slate-100/70 p-3 rounded-xl text-left">
+                      {item.includes.map((inc, index) => (
+                        <li key={index} className="text-[11px] text-slate-600 font-medium flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0"></span>
+                          {inc}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 {item.type === "variable" ? (
