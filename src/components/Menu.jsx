@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Utensils, ShoppingBag, Plus, Minus, Check } from "lucide-react";
+import { Utensils, ShoppingBag, Plus, Minus, Check, Trash2 } from "lucide-react";
 
 const categorizedMenu = {
   "Native Soups": {
@@ -72,7 +72,7 @@ const categorizedMenu = {
       { id: "r1", name: "Smokey Jollof Rice", type: "variable", sizes: { "2.4L": 25000, "3.5L": 35000, "5L": 45000 } },
       { id: "r2", name: "Nigerian Fried Rice", type: "variable", sizes: { "2.4L": 25000, "3.5L": 35000, "5L": 45000 } },
       { id: "r3", name: "Basmati Fried Rice", type: "variable", sizes: { "2.4L": 30000, "3.5L": 35000, "5L": 50000 } },
-      { id: "r4", name: "Seafood Basmati Fried Rice", type: "variable", sizes: { "2.4L": 30000, "3.5L": 40000, "5L": 60000 } },
+      { id: "r4", name: "Seafood Basmati Fried Rice", type: "variable", sizes: { "2.4L": 30000, "3.4L": 40000, "5L": 60000 } },
       { id: "r5", name: "Asun Jollof", type: "variable", sizes: { "2.4L": 40000, "3.5L": 50000, "5L": 60000 } },
       { id: "r6", name: "Coconut Rice", type: "variable", sizes: { "2.4L": 30000, "3.5L": 40000, "5L": 50000 } },
       { id: "r7", name: "Basmati Coconut Rice", type: "variable", sizes: { "2.4L": 30000, "3.5L": 40000, "5L": 50000 } },
@@ -88,16 +88,16 @@ const categorizedMenu = {
   },
   "Swallow": {
     title: "Fresh Swallow Options",
-    desc: "Soft, freshly prepared traditional swallow wrappers to pair seamlessly with your native soup bowls.",
-    image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=1200&q=80",
-    fallbackBg: "from-yellow-700 to-amber-900",
+    desc: "Soft, freshly prepared traditional swallow bundles to pair seamlessly with your native soup bowls.",
+    image: "/banner-swallow.jpg",
+    fallbackBg: "from-amber-800 to-yellow-950",
     items: [
-      { id: "sw1", name: "Eba", type: "flat", price: 500, unit: "wrap" },
-      { id: "sw2", name: "Amala", type: "flat", price: 1500, unit: "wrap" },
-      { id: "sw3", name: "Fufu", type: "flat", price: 500, unit: "wrap" },
-      { id: "sw4", name: "Pounded Yam", type: "flat", price: 1500, unit: "wrap" },
-      { id: "sw5", name: "Starch", type: "flat", price: 1500, unit: "wrap" },
-      { id: "sw6", name: "Semolina", type: "flat", price: 700, unit: "wrap" }
+      { id: "sw1", name: "Eba", type: "flat", price: 500, unit: "" },
+      { id: "sw2", name: "Amala", type: "flat", price: 1500, unit: "" },
+      { id: "sw3", name: "Fufu", type: "flat", price: 500, unit: "" },
+      { id: "sw4", name: "Pounded Yam", type: "flat", price: 1500, unit: "" },
+      { id: "sw5", name: "Starch", type: "flat", price: 1500, unit: "" },
+      { id: "sw6", name: "Semolina", type: "flat", price: 700, unit: "" }
     ]
   },
   "Proteins & Extras": {
@@ -119,7 +119,7 @@ const categorizedMenu = {
       { id: "pr11", name: "Kanda / Pomo", type: "flat", price: 1000, unit: "piece" },
       { id: "pr12", name: "Snail (Small)", type: "flat", price: 4000, unit: "piece" },
       { id: "pr13", name: "Snail (Big)", type: "flat", price: 7000, unit: "piece" },
-      { id: "pr14", name: "Jumbo Prawns", type: "flat", price: 4000, unit: "piece (min. 5)" },
+      { id: "pr14", name: "Jumbo Prawns", type: "flat", price: 4000, unit: "piece (Min 5 wraps)" },
       { id: "mm1", name: "Moi Moi (Fish & Eggs)", type: "flat", price: 3000, unit: "wrap (Min 5 wraps)" },
       { id: "mm2", name: "Moi Moi (Full Egg)", type: "flat", price: 2500, unit: "wrap (Min 5 wraps)" }
     ]
@@ -257,6 +257,10 @@ export default function Menu() {
     });
   };
 
+  const clearSelection = () => {
+    setSelectedItems({});
+  };
+
   const calculateTotal = () => {
     return Object.values(selectedItems).reduce((sum, item) => sum + (item.price * item.qty), 0);
   };
@@ -268,14 +272,14 @@ export default function Menu() {
     let textPayload = "Hello Everyday Favichi_eats, I want to place a custom food order from your website portal:\n\n";
     itemsArray.forEach((item) => {
       if (item.mode === "variable") {
-        textPayload += `• ${item.name} (${item.size}) — ₦${item.price.toLocaleString()}\n`;
+        textPayload += "• " + item.name + " (" + item.size + ") — ₦" + item.price.toLocaleString() + "\n";
       } else {
-        textPayload += `• ${item.name} x${item.qty} — ₦${(item.price * item.qty).toLocaleString()}\n`;
+        textPayload += "• " + item.name + " x" + item.qty + " — ₦" + (item.price * item.qty).toLocaleString() + "\n";
       }
     });
 
-    textPayload += `\nEstimated Menu Subtotal: ₦${calculateTotal().toLocaleString()}\n\nPlease verify confirmation timelines. Thank you!`;
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(textPayload)}`, '_blank');
+    textPayload += "\nEstimated Menu Subtotal: ₦" + calculateTotal().toLocaleString() + "\n\nPlease verify confirmation timelines. Thank you!";
+    window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(textPayload), "_blank");
   };
 
   const currentCategory = categorizedMenu[activeTab];
@@ -296,9 +300,7 @@ export default function Menu() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2.5 rounded-full text-xs font-black tracking-tight transition whitespace-nowrap shrink-0 ${
-                activeTab === tab ? "bg-orange-600 text-white shadow-sm" : "bg-orange-50 text-orange-800 hover:bg-orange-100/80"
-              }`}
+              className={"px-4 py-2.5 rounded-full text-xs font-black tracking-tight transition whitespace-nowrap shrink-0 " + (activeTab === tab ? "bg-orange-600 text-white shadow-sm" : "bg-orange-50 text-orange-800 hover:bg-orange-100/80")}
             >
               {tab}
             </button>
@@ -307,8 +309,8 @@ export default function Menu() {
 
         <div 
           key={activeTab}
-          className={`w-full rounded-3xl mb-8 min-h-[180px] md:min-h-[240px] shadow-sm relative overflow-hidden bg-gradient-to-br ${currentCategory.fallbackBg} flex flex-col justify-end p-6 md:p-10 transition-all duration-500 bg-cover bg-center`}
-          style={{ backgroundImage: `url(${currentCategory.image})` }}
+          className={"w-full rounded-3xl mb-8 min-h-[180px] md:min-h-[240px] shadow-sm relative overflow-hidden bg-gradient-to-br flex flex-col justify-end p-6 md:p-10 transition-all duration-500 bg-cover bg-center " + currentCategory.fallbackBg}
+          style={{ backgroundImage: "url(" + currentCategory.image + ")" }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent z-0"></div>
           
@@ -325,9 +327,7 @@ export default function Menu() {
             return (
               <div 
                 key={item.id} 
-                className={`border rounded-2xl p-5 transition flex flex-col justify-between ${
-                  currentSelection ? "border-orange-500 bg-orange-50/40 ring-2 ring-orange-500/10 shadow-sm" : "border-slate-100 bg-white/90 hover:border-orange-200"
-                }`}
+                className={"border rounded-2xl p-5 transition flex flex-col justify-between " + (currentSelection ? "border-orange-500 bg-orange-50/40 ring-2 ring-orange-500/10 shadow-sm" : "border-slate-100 bg-white/90 hover:border-orange-200")}
               >
                 <div>
                   <div className="flex justify-between items-start gap-2">
@@ -374,7 +374,9 @@ export default function Menu() {
                 ) : (
                   <div className="mt-5 flex items-center justify-between pt-3 border-t border-slate-50">
                     <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Price per {item.unit}</span>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                        {item.unit ? "Price per " + item.unit : "Price"}
+                      </span>
                       <span className="text-orange-600 font-black text-sm">₦{item.price.toLocaleString()}</span>
                     </div>
 
@@ -405,23 +407,35 @@ export default function Menu() {
       </div>
 
       {calculateTotal() > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-2xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 z-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-orange-600 p-2.5 rounded-xl text-white">
-              <ShoppingBag size={18} />
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 z-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center justify-between md:justify-start gap-4 w-full md:w-auto">
+            <div className="flex items-center gap-3">
+              <div className="bg-orange-600 p-2.5 rounded-xl text-white">
+                <ShoppingBag size={18} />
+              </div>
+              <div>
+                <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Estimated Summary</h5>
+                <p className="text-lg font-black text-orange-400 mt-0.5">
+                  ₦{calculateTotal().toLocaleString()}
+                </p>
+              </div>
             </div>
-            <div>
-              <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Estimated Summary</h5>
-              <p className="text-lg font-black text-orange-400 mt-0.5">
-                ₦{calculateTotal().toLocaleString()}
-              </p>
-            </div>
+
+            <button
+              onClick={clearSelection}
+              className="flex items-center gap-1.5 text-xs font-black text-red-400 hover:text-red-300 transition bg-red-500/10 hover:bg-red-500/20 px-3 py-2 rounded-xl border border-red-500/20"
+              title="Reset Order Selection"
+            >
+              <Trash2 size={13} />
+              <span>Reset</span>
+            </button>
           </div>
+
           <button
             onClick={fireWhatsAppOrder}
-            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-black text-xs px-6 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2"
+            className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-black text-xs px-6 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2"
           >
-            Forward Combo to WhatsApp ({Object.keys(selectedItems).length} items)
+            Forward Combo to WhatsApp ({Object.values(selectedItems).reduce((a, b) => a + b.qty, 0)} items)
           </button>
         </div>
       )}

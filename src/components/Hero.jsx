@@ -9,8 +9,7 @@ export default function Hero() {
         Freshly Made Bulk Meals Delivered Straight To You
       </h2>
       <p className="mt-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
-        Serving premium culinary experiences across Lagos, Abuja, Asaba, and Ogun State. From family soup bowls to dedicated chefs for your residence.
-      </p>
+        Serving premium culinary experiences across Nigeria</p>
     </section>
   );
 }

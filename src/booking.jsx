@@ -33,7 +33,7 @@ export default function Booking({ onBooking }) {
             <div className="bg-purple-50 text-purple-600 w-10 h-10 rounded-xl flex items-center justify-center mb-4">
               <Calendar size={20} />
             </div>
-            <h4 className="text-lg font-bold text-slate-900">Event Catering & Hosting</h4>
+            <h4 className="text-lg font-bold text-slate-900">Event Catering</h4>
             <p className="text-xs text-slate-600 mt-2 leading-relaxed">
               Premium culinary setups for weddings, birthday parties, corporate functions, and indoor gatherings with customized indoor/outdoor kitchen setups.
             </p>

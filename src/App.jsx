@@ -3,8 +3,10 @@ import { Phone, MapPin, MessageSquare } from 'lucide-react';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import Booking from './components/Booking';
+import RentAChef from './components/RentAChef';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
+import FloatingSocials from './components/FloatingSocials';
 
 import logoAsset from './assets/logo.png';
 
@@ -15,6 +17,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative">
       
+      {/* Watermark Background Animation Layer */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 flex items-center justify-center opacity-[0.03]">
         <img 
           src={logoAsset} 
@@ -23,6 +26,7 @@ export default function App() {
         />
       </div>
 
+      {/* Persistent Global Application Navigation Header Bar */}
       <header className="bg-white/95 backdrop-blur border-b border-orange-100 sticky top-0 z-50 shadow-sm px-4 md:px-8 py-2.5 flex justify-between items-center">
         <div className="flex items-center gap-3.5">
           <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl overflow-hidden shadow-sm border border-orange-100 bg-orange-50 shrink-0 p-0.5 transition-all duration-300">
@@ -41,12 +45,15 @@ export default function App() {
         </a>
       </header>
 
+      {/* Structural Page Section Node Wrapper Layout */}
       <div className="relative z-10">
         <Hero />
         <Menu />
         <Booking onBooking={(service) => window.open(`https://wa.me/${whatsappNumber}?text=Hello%20Everyday%20Favichi%20Eats,%20I%20want%20to%20make%20an%20inquiry%20about%20booking%20a%20"${encodeURIComponent(service)}".`, '_blank')} />
+        <RentAChef />
         <Gallery />
 
+        {/* Corporate Address & Map Location Matrix Section */}
         <section className="py-16 px-6 bg-slate-900 text-white grid md:grid-cols-2 gap-12 items-center border-t border-slate-800">
           <div className="max-w-md mx-auto md:mx-0 md:pl-12">
             <h3 className="text-2xl font-black text-white mb-4">Everyday Favichi_eats</h3>
@@ -64,6 +71,7 @@ export default function App() {
               </div>
             </div>
           </div>
+          
           <div className="w-full h-64 bg-slate-800 rounded-2xl overflow-hidden relative shadow-md">
             <iframe 
               title="Business Location Map"
@@ -76,6 +84,7 @@ export default function App() {
         </section>
 
         <Footer />
+        <FloatingSocials />
       </div>
     </div>
   );
