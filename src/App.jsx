@@ -18,7 +18,7 @@ export default function App() {
     <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative">
       
       {/* Watermark Background Animation Layer */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 flex items-center justify-center opacity-[0.03]">
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 flex items-center justify-center opacity-[0.16]">
         <img 
           src={logoAsset} 
           alt="Watermark Background" 
@@ -27,22 +27,19 @@ export default function App() {
       </div>
 
       {/* Persistent Global Application Navigation Header Bar */}
-      <header className="bg-white/95 backdrop-blur border-b border-orange-100 sticky top-0 z-50 shadow-sm px-4 md:px-8 py-2.5 flex justify-between items-center">
-        <div className="flex items-center gap-3.5">
-          <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl overflow-hidden shadow-sm border border-orange-100 bg-orange-50 shrink-0 p-0.5 transition-all duration-300">
-            <img src={logoAsset} alt="Everyday Favichi_eats Logo" className="w-full h-full object-cover rounded-xl" />
+      <header className="bg-white/95 backdrop-blur border-b border-orange-100 sticky top-0 z-50 shadow-sm px-3 md:px-8 py-2.5 flex justify-between items-center">
+        <div className="flex items-center gap-2 md:gap-3.5">
+          {/* Responsive logo size to preserve screen space on mobile */}
+          <div className="w-11 h-11 md:w-16 md:h-16 rounded-xl md:rounded-2xl overflow-hidden shadow-sm border border-orange-100 bg-orange-50 shrink-0 p-0.5 transition-all duration-300">
+            <img src={logoAsset} alt="Everyday Favichi_eats Logo" className="w-full h-full object-cover rounded-lg md:rounded-xl" />
           </div>
-          <h1 className="text-xl font-black text-orange-600 tracking-tight hidden sm:block">Everyday Favichi_eats</h1>
+          {/* Changed text-sm for mobile and text-xl for screens to keep it on a single line */}
+          <h1 className="text-sm md:text-xl font-black text-orange-600 tracking-tight block">
+            Everyday Favichi_eats
+          </h1>
         </div>
         
-        <a 
-          href={`https://wa.me/${whatsappNumber}`} 
-          target="_blank" 
-          rel="noreferrer"
-          className="bg-green-600 text-white text-xs md:text-sm font-bold px-5 py-2.5 rounded-full flex items-center gap-2 hover:bg-green-700 transition shadow-sm"
-        >
-          <MessageSquare size={16} /> Order via WhatsApp
-        </a>
+
       </header>
 
       {/* Structural Page Section Node Wrapper Layout */}

@@ -41,7 +41,7 @@ export default function App() {
           rel="noreferrer"
           className="bg-green-600 text-white text-xs md:text-sm font-bold px-5 py-2.5 rounded-full flex items-center gap-2 hover:bg-green-700 transition shadow-sm"
         >
-          <MessageSquare size={16} /> Order via WhatsApp
+          <MessageSquare size={16} /> WhatsApp
         </a>
       </header>
 

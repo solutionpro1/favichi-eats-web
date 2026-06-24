@@ -1,59 +1,78 @@
 import React from "react";
+import { Instagram, MessageSquare, Youtube, Facebook } from "lucide-react";
 
 export default function FloatingSocials() {
+  // Exact client-provided URLs preserving all tracking parameters safely
+  const whatsappUrl = "https://wa.me/2348154064345";
+  const instagramUrl = "https://www.instagram.com/everyday_favichi?igsh=MTNjN3B1djBiZXdhbg%3D%3D&utm_source=qr";
+  const tiktokUrl = "https://www.tiktok.com/@favichi_eats?_r=1&_t=ZS-97AlpSTsD48";
+  const youtubeUrl = "https://youtube.com/@favichi_eats?si=84sbT-zsbpav822r";
+  const facebookUrl = "https://www.facebook.com/share/1BveaghUms/?mibextid=wwXIfr";
+
   return (
-    <div className="fixed right-3 top-1/3 -translate-y-1/2 z-50 flex flex-col gap-3 bg-slate-950/80 backdrop-blur-md p-2.5 rounded-2xl border border-slate-800/90 shadow-2xl transition-all duration-300 hover:border-orange-500/30">
-      {/* Instagram */}
-      <a 
-        href="https://www.instagram.com/everyday_favichi?igsh=MTNjN3B1djBiZXdhbg%3D%3D&utm_source=qr" 
-        target="_blank" 
-        rel="noreferrer" 
-        className="text-slate-400 hover:text-orange-500 hover:scale-110 transition duration-200"
-        title="Instagram"
+    <div className="fixed bottom-28 right-4 md:bottom-8 md:right-8 flex flex-col gap-2.5 z-40">
+      
+      {/* 1. WhatsApp Connection Row */}
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="w-11 h-11 md:w-13 md:h-13 rounded-full bg-green-600 text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group border border-white/10"
+        title="Chat on WhatsApp"
       >
-        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69 Gilmore .073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        <MessageSquare size={20} className="group-hover:scale-105 transition duration-300 md:w-5 md:h-5" />
+      </a>
+
+      {/* 2. Instagram Profile Row */}
+      <a
+        href={instagramUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="w-11 h-11 md:w-13 md:h-13 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group border border-white/20"
+        title="Follow us on Instagram"
+      >
+        <Instagram size={20} className="group-hover:rotate-6 transition duration-300 md:w-5 md:h-5" />
+      </a>
+
+      {/* 3. TikTok Custom SVG Profile Row */}
+      <a
+        href={tiktokUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="w-11 h-11 md:w-13 md:h-13 rounded-full bg-black text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group border border-white/10"
+        title="Follow us on TikTok"
+      >
+        <svg 
+          viewBox="0 0 24 24" 
+          fill="currentColor" 
+          className="w-5 h-5 md:w-5 md:h-5 group-hover:-translate-y-0.5 transition duration-300"
+        >
+          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.01 1.63 4.15 1.02 1.05 2.41 1.69 3.91 1.78v3.91c-1.51-.01-3-.45-4.27-1.29-.68-.46-1.28-1.05-1.74-1.74V15.5c-.06 2.34-1.07 4.57-2.79 6.16-1.89 1.68-4.47 2.45-6.99 2.1-2.92-.35-5.51-2.42-6.42-5.22-.99-3.14-.07-6.73 2.37-8.91 1.83-1.6 4.31-2.3 6.74-1.9v3.91c-1.37-.25-2.82.16-3.8 1.14-.94.99-1.29 2.43-.93 3.73.35 1.25 1.48 2.19 2.78 2.36 1.41.16 2.87-.51 3.49-1.78.3-.65.42-1.37.42-2.08V.02z" />
         </svg>
       </a>
 
-      {/* YouTube */}
-      <a 
-        href="https://youtube.com/@favichi_eats?si=84sbT-zsbpav822r" 
-        target="_blank" 
-        rel="noreferrer" 
-        className="text-slate-400 hover:text-red-500 hover:scale-110 transition duration-200"
-        title="YouTube"
+      {/* 4. YouTube Channel Row */}
+      <a
+        href={youtubeUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="w-11 h-11 md:w-13 md:h-13 rounded-full bg-[#FF0000] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group border border-white/10"
+        title="Subscribe on YouTube"
       >
-        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-        </svg>
+        <Youtube size={20} className="group-hover:scale-105 transition duration-300 md:w-5 md:h-5" />
       </a>
 
-      {/* TikTok */}
-      <a 
-        href="https://www.tiktok.com/@favichi_eats?_r=1&_t=ZS-97AlpSTsD48" 
-        target="_blank" 
-        rel="noreferrer" 
-        className="text-slate-400 hover:text-teal-400 hover:scale-110 transition duration-200"
-        title="TikTok"
+      {/* 5. Facebook Page Row */}
+      <a
+        href={facebookUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="w-11 h-11 md:w-13 md:h-13 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group border border-white/10"
+        title="Like us on Facebook"
       >
-        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.69 4.14 1.13 1.2 2.68 1.92 4.31 2.05v3.63c-1.3-.01-2.6-.33-3.76-.92-.89-.46-1.68-1.12-2.3-1.92v6.23c0 1.29-.27 2.56-.79 3.72-.57 1.26-1.44 2.36-2.5 3.19-1.28.98-2.83 1.56-4.46 1.67-1.42.09-2.85-.18-4.15-.79a8.76 8.76 0 01-4.32-4.78C-.3 15.02-.17 13.2 0 11.45c.42-2.12 1.62-4.05 3.39-5.32A8.61 8.61 0 018.66 4.7c.07 1.23.05 2.46.01 3.69-.65.04-1.3.21-1.88.52-.75.4-1.37.99-1.78 1.72-.47.83-.62 1.8-.42 2.73.18.84.62 1.6 1.25 2.15.69.59 1.57.9 2.48.87.82.02 1.63-.23 2.3-.7.71-.52 1.19-1.31 1.34-2.17.13-.77.11-1.56.11-2.34V0h.43z"/>
-        </svg>
+        <Facebook size={20} className="group-hover:scale-105 transition duration-300 md:w-5 md:h-5" />
       </a>
 
-      {/* Facebook */}
-      <a 
-        href="https://www.facebook.com/share/1BveaghUms/?mibextid=wwXIfr" 
-        target="_blank" 
-        rel="noreferrer" 
-        className="text-slate-400 hover:text-blue-500 hover:scale-110 transition duration-200"
-        title="Facebook"
-      >
-        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-        </svg>
-      </a>
     </div>
   );
 }
