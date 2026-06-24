@@ -43,7 +43,7 @@ const categorizedMenu = {
       { id: "st7", name: "Goat Meat Stew", type: "variable", sizes: { "1.4L": 30000, "2.4L": 40000, "3.5L": 50000, "5L": 70000 } },
       { id: "st8", name: "Cow Leg Sauce", type: "variable", sizes: { "1.4L": 30000, "2.4L": 40000, "3.5L": 50000, "5L": 70000 } },
       { id: "st9", name: "Snail Sauce", type: "variable", sizes: { "1.4L": 30000, "2.4L": 40000, "3.5L": 50000, "5L": 70000 } },
-      { id: "st10", name: "Ayamashe Sauce", type: "variable", sizes: { "1.4L": 30000, "2.4L": 40000, "3.5L": 5000, "5L": 70000 } },
+      { id: "st10", name: "Ayamashe Sauce", type: "variable", sizes: { "1.4L": 30000, "2.4L": 40000, "3.5L": 50000, "5L": 70000 } },
       { id: "st11", name: "Mackerel Fish Sauce", type: "variable", sizes: { "1.4L": 30000, "2.4L": 40000, "3.5L": 50000, "5L": 70000 } },
       { id: "st12", name: "Ofada Sauce", type: "variable", sizes: { "1.4L": 30000, "2.4L": 45000, "3.5L": 60000, "5L": 80000 } }
     ]
@@ -62,27 +62,27 @@ const categorizedMenu = {
       { id: "ps6", name: "Assorted Pepper Soup", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 65000 } }
     ]
   },
-  "Rice Dishes": {
+  "Rice Dishes and Pasta": {
     title: "Signature Grains & Rice Dishes",
     desc: "From iconic deep-smokey wood-fired party Jollof rice to premium loaded stir-fry Basmati and coconut grains.",
     image: "/banner-rice.jpg",
     fallbackBg: "from-orange-800 to-amber-950",
     items: [
-      { id: "r1", name: "Smokey Jollof Rice (Our Signature)", type: "variable", sizes: { "1.4L": 20000, "2.4L": 25000, "3.5L": 35000, "5L": 45000 } },
-      { id: "r2", name: "Nigerian Fried Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 25000, "3.5L": 35000, "5L": 45000 } },
-      { id: "r3", name: "Basmati Fried Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 30000, "3.5L": 35000, "5L": 50000 } },
-      { id: "r4", name: "Seafood Basmati Fried Rice", type: "variable", sizes: { "1.4L": 35000, "2.4L": 30000, "3.5L": 40000, "5L": 60000 } },
-      { id: "r5", name: "Asun Jollof", type: "variable", sizes: { "1.4L": 25000, "2.4L": 40000, "3.5L": 50000, "5L": 60000 } },
+      { id: "r1", name: "Smokey Jollof Rice (Our Signature)", type: "variable", sizes: { "1.4L": 18000, "2.4L": 28000, "3.5L": 35000, "5L": 45000 } },
+      { id: "r2", name: "Nigerian Fried Rice", type: "variable", sizes: { "1.4L": 20000, "2.4L": 30000, "3.5L": 38000, "5L": 50000 } },
+      { id: "r3", name: "Basmati Fried Rice", type: "variable", sizes: { "1.4L": 22000, "2.4L": 30000, "3.5L": 38000, "5L": 50000 } },
+      { id: "r4", name: "Seafood Basmati Fried Rice", type: "variable", sizes: { "1.4L": 35000, "2.4L": 45000, "3.5L": 55000, "5L": 75000 } },
+      { id: "r5", name: "Asun Jollof", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } },
       { id: "r6", name: "Coconut Rice", type: "variable", sizes: { "1.4L": 20000, "2.4L": 30000, "3.5L": 40000, "5L": 50000 } },
-      { id: "r7", name: "Basmati Coconut Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 30000, "3.5L": 40000, "5L": 50000 } },
-      { id: "r8", name: "Native Rice", type: "variable", sizes: { "1.4L": 20000, "2.4L": 35000, "3.5L": 35000, "5L": 55000 } },
-      { id: "r9", name: "Basmati Native Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 40000, "3.5L": 40000, "5L": 60000 } },
-      { id: "r10", name: "Meaty Jollof Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 35000, "5L": 75000 } },
-      { id: "r11", name: "Jollof Spaghetti", type: "variable", sizes: { "1.4L": 20000, "2.4L": 25000, "3.5L": 35000, "5L": 45000 } },
-      { id: "r12", name: "Stir Fry Spaghetti", type: "variable", sizes: { "1.4L": 25000, "2.4L": 30000, "3.5L": 35000, "5L": 55000 } },
-      { id: "r13", name: "Plain Rice", type: "variable", sizes: { "1.4L": 12000, "2.4L": 20000, "3.5L": 35000 } },
-      { id: "r14", name: "Plain Basmati Rice", type: "variable", sizes: { "1.4L": 15000, "2.4L": 20000, "3.5L": 35000 } },
-      { id: "r15", name: "Ofada Rice", type: "variable", sizes: { "1.4L": 15000, "2.4L": 20000, "3.5L": 80000 } }
+      { id: "r7", name: "Basmati Coconut Rice", type: "variable", sizes: { "1.4L": 22000, "2.4L": 32000, "3.5L": 40000, "5L": 50000 } },
+      { id: "r8", name: "Native Rice", type: "variable", sizes: { "1.4L": 20000, "2.4L": 30000, "3.5L": 35000, "5L": 55000 } },
+      { id: "r9", name: "Basmati Native Rice", type: "variable", sizes: { "1.4L": 22000, "2.4L": 32000, "3.5L": 40000, "5L": 60000 } },
+      { id: "r10", name: "Meaty Jollof Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 75000 } },
+      { id: "r11", name: "Jollof Spaghetti", type: "variable", sizes: { "1.4L": 20000, "2.4L": 30000, "3.5L": 40000, "5L": 45000 } },
+      { id: "r12", name: "Stir Fry Spaghetti", type: "variable", sizes: { "1.4L": 22000, "2.4L": 32000, "3.5L": 42000, "5L": 55000 } },
+      { id: "r13", name: "Plain Rice", type: "variable", sizes: { "1.4L": 12000, "2.4L": 20000, "3.5L": 30000, "5L": 40000 } },
+      { id: "r14", name: "Plain Basmati Rice", type: "variable", sizes: { "1.4L": 15000, "2.4L": 20000, "3.5L": 35000, "5L": 45000 } },
+      { id: "r15", name: "Ofada Rice", type: "variable", sizes: { "1.4L": 15000, "2.4L": 25000, "3.5L": 30000, "5L": 45000 } }
     ]
   },
   "Swallow": {
@@ -144,7 +144,7 @@ const categorizedMenu = {
   "Pottages & Sides": {
     title: "Traditional Sides & Pottages",
     desc: "Hearty native bean pottages, slow-simmered local sauces, and dynamic breakfast egg pairings.",
-    image: "/banner-pottages.jpg",
+    image: "/banner-stews.jpg",
     fallbackBg: "from-orange-900 to-amber-950",
     items: [
       { id: "pd1", name: "Plain Beans", type: "variable", sizes: { "1.4L": 12000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } },
@@ -224,7 +224,7 @@ const categorizedMenu = {
         id: "cb4", 
         name: "Superior Combo - 100/200 Guests", 
         type: "flat", 
-        price: 1750000, 
+        price: 2000000, 
         unit: "Combo",
         includes: [
           "30L cooler Smokey Jollof Rice",
@@ -236,7 +236,8 @@ const categorizedMenu = {
           "10L Egusi soup/Goat meat",
           "10L Eforiro/Assorted meat",
           "40 Pounded yam",
-          "40 Semolina"
+          "40 Semolina",
+          "50 Wraps of moi moi"
         ]
       }
     ]
@@ -288,7 +289,6 @@ export default function Menu() {
     return Object.values(selectedItems).reduce((sum, item) => sum + (item.price * item.qty), 0);
   };
 
-  // --- Touch Gesture Tracking Mechanism ---
   const handleTouchStart = (e) => {
     setTouchStartX(e.touches[0].clientX);
     setTouchStartY(e.touches[0].clientY);
@@ -301,17 +301,14 @@ export default function Menu() {
     const diffX = touchStartX - touchEndX;
     const diffY = touchStartY - touchEndY;
 
-    // Verify intentional horizontal motion tracking over ambient vertical scrolling
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
       const currentIdx = categoriesList.indexOf(activeTab);
       
       if (diffX > 0) {
-        // Swiped Left -> Cycle to Next Category
         if (currentIdx < categoriesList.length - 1) {
           setActiveTab(categoriesList[currentIdx + 1]);
         }
       } else {
-        // Swiped Right -> Cycle to Previous Category
         if (currentIdx > 0) {
           setActiveTab(categoriesList[currentIdx - 1]);
         }
@@ -352,7 +349,6 @@ export default function Menu() {
           </span>
         </div>
 
-        {/* Categories Tab Navigation Bar */}
         <div className="flex gap-2 mb-6 border-b border-orange-100/60 pb-3 overflow-x-auto no-scrollbar justify-start md:justify-center relative z-20">
           {categoriesList.map((tab) => (
             <button
@@ -365,7 +361,6 @@ export default function Menu() {
           ))}
         </div>
 
-        {/* Category Header Banner */}
         <div 
           key={activeTab}
           className={"w-full rounded-3xl mb-8 min-h-[180px] md:min-h-[240px] shadow-sm relative overflow-hidden bg-gradient-to-br flex flex-col justify-end p-6 md:p-10 transition-all duration-500 bg-cover bg-center " + currentCategory.fallbackBg}
@@ -379,7 +374,6 @@ export default function Menu() {
           </div>
         </div>
 
-        {/* Swipeable Active Item Display Matrix Container Grid */}
         <div 
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
@@ -469,7 +463,6 @@ export default function Menu() {
         </div>
       </div>
 
-      {/* Floating Sticky Total Order Footer Summary Strip Bar */}
       {calculateTotal() > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 z-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center justify-between md:justify-start gap-4 w-full md:w-auto">
