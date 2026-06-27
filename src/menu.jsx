@@ -76,8 +76,8 @@ const categorizedMenu = {
       { id: "r7", name: "Basmati Coconut Rice", type: "variable", sizes: { "1.4L": 22000, "2.4L": 32000, "3.5L": 40000, "5L": 50000 } },
       { id: "r8", name: "Native Rice", type: "variable", sizes: { "1.4L": 20000, "2.4L": 30000, "3.5L": 35000, "5L": 55000 } },
       { id: "r9", name: "Basmati Native Rice", type: "variable", sizes: { "1.4L": 22000, "2.4L": 32000, "3.5L": 40000, "5L": 60000 } },
-      { id: "r10", name: "Meaty Jollof Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 75000 } },
-      { id: "r11", name: "Jollof Spaghetti", type: "variable", sizes: { "1.4L": 20000, "2.4L": 30000, "3.5L": 40000, "5L": 45000 } },
+      { id: "r10", name: "Meaty Jollof Rice", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 65000 } },
+      { id: "r11", name: "Jollof Spaghetti", type: "variable", sizes: { "1.4L": 20000, "2.4L": 30000, "3.5L": 40000, "5L": 55000 } },
       { id: "r12", name: "Stir Fry Spaghetti", type: "variable", sizes: { "1.4L": 22000, "2.4L": 32000, "3.5L": 42000, "5L": 55000 } },
       { id: "r13", name: "Plain Rice", type: "variable", sizes: { "1.4L": 12000, "2.4L": 20000, "3.5L": 30000, "5L": 40000 } },
       { id: "r14", name: "Plain Basmati Rice", type: "variable", sizes: { "1.4L": 15000, "2.4L": 20000, "3.5L": 35000, "5L": 45000 } },
@@ -319,6 +319,9 @@ export default function Menu() {
     const itemsArray = Object.values(selectedItems);
     if (itemsArray.length === 0) return;
 
+    const originalSubtotal = calculateTotal();
+    const promotionalSubtotal = originalSubtotal * 0.95;
+
     let textPayload = "Hello Everyday Favichi_eats, I want to place a custom food order from your website portal:\n\n";
     itemsArray.forEach((item) => {
       if (item.mode === "variable") {
@@ -328,11 +331,16 @@ export default function Menu() {
       }
     });
 
-    textPayload += "\nEstimated Menu Subtotal: ₦" + calculateTotal().toLocaleString() + "\n\nPlease verify confirmation timelines. Thank you!";
+    textPayload += "\nOriginal Subtotal: ₦" + originalSubtotal.toLocaleString() + "\n";
+    textPayload += "🎉 5% Launch Discount Applied: ₦" + promotionalSubtotal.toLocaleString() + "\n\n";
+    textPayload += "Please verify confirmation timelines. Thank you!";
+    
     window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(textPayload), "_blank");
   };
 
   const currentCategory = categorizedMenu[activeTab];
+  const currentTotal = calculateTotal();
+  const discountedTotal = currentTotal * 0.95;
 
   return (
     <section className="py-12 bg-white/40 px-4 md:px-6 border-y border-orange-100 relative">
@@ -462,7 +470,7 @@ export default function Menu() {
         </div>
       </div>
 
-      {calculateTotal() > 0 && (
+      {currentTotal > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 z-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center justify-between md:justify-start gap-4 w-full md:w-auto">
             <div className="flex items-center gap-3">
@@ -471,9 +479,15 @@ export default function Menu() {
               </div>
               <div>
                 <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Estimated Summary</h5>
-                <p className="text-lg font-black text-orange-400 mt-0.5">
-                  ₦{calculateTotal().toLocaleString()}
-                </p>
+                <div className="flex items-baseline gap-2 mt-0.5">
+                  <span className="text-xs line-through text-slate-400 font-medium">
+                    ₦{currentTotal.toLocaleString()}
+                  </span>
+                  <p className="text-lg font-black text-green-400">
+                    ₦{discountedTotal.toLocaleString()}
+                    <span className="text-[9px] font-extrabold bg-green-500/20 text-green-400 px-1 py-0.5 rounded ml-1.5 tracking-wide uppercase">5% Off</span>
+                  </p>
+                </div>
               </div>
             </div>
 

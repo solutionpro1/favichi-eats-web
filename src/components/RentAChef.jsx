@@ -1,5 +1,5 @@
 import React from "react";
-import { UserCheck, Calendar, Star, ShieldCheck } from "lucide-react";
+import { UserCheck, Calendar, Star, ShieldCheck, Sparkles } from "lucide-react";
 
 const chefPackages = [
   {
@@ -38,8 +38,14 @@ const chefPackages = [
 export default function RentAChef() {
   const whatsappNumber = "2348154064345";
 
-  const bookChefService = (tier, type, rateDetails) => {
-    const textPayload = "Hello Everyday Favichi eats & catering, I want to inquire about booking a [" + tier + "] via your Rent a Chef service module:\n\n• Service Mode: " + type + "\n• Plan Metric: " + rateDetails + "\n\nPlease forward availability windows. Thank you!";
+  const bookChefService = (tier, type, originalRate, promoRate, detailString) => {
+    let textPayload = "Hello Everyday Favichi eats & catering, I want to inquire about booking a [" + tier + "] via your Rent a Chef service module:\n\n";
+    textPayload += "• Service Mode: " + type + "\n";
+    textPayload += "• Timing Layout: " + detailString + "\n";
+    textPayload += "• Original Rate: ₦" + originalRate.toLocaleString() + "\n";
+    textPayload += "🎉 Website Launch Promo Applied (5% OFF): ₦" + promoRate.toLocaleString() + "\n\n";
+    textPayload += "Please forward availability windows. Thank you!";
+    
     window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(textPayload), '_blank');
   };
 
@@ -58,6 +64,7 @@ export default function RentAChef() {
         <div className="grid md:grid-cols-3 gap-8">
           {chefPackages.map((chef, i) => {
             const isDark = chef.tier === "Pro Chef";
+            const discountedDaily = chef.dailyRate * 0.95;
             
             return (
               <div key={i} className={"border rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-sm transition hover:shadow-md " + chef.accent}>
@@ -70,35 +77,56 @@ export default function RentAChef() {
                     {chef.desc}
                   </p>
 
+                  {/* Daily Pricing Card Node Container */}
                   <div className={"p-4 rounded-2xl mb-6 " + (isDark ? "bg-slate-900 border border-slate-800" : "bg-slate-50 border border-slate-100")}>
                     <span className={"text-[10px] font-bold uppercase tracking-wider block " + (isDark ? "text-slate-500" : "text-slate-400")}>Daily Rate</span>
-                    <div className="flex items-baseline gap-1 mt-1">
-                      <span className="text-2xl font-black text-orange-500">₦{chef.dailyRate.toLocaleString()}</span>
-                      <span className={"text-[10px] font-bold " + (isDark ? "text-slate-400" : "text-slate-500")}>/ per day</span>
+                    
+                    <div className="flex items-baseline flex-wrap gap-x-2 gap-y-0.5 mt-1">
+                      <span className="text-xs line-through text-slate-400 font-bold">
+                        ₦{chef.dailyRate.toLocaleString()}
+                      </span>
+                      <span className="text-2xl font-black text-green-500">
+                        ₦{discountedDaily.toLocaleString()}
+                      </span>
+                      <span className={"text-[9px] font-bold " + (isDark ? "text-slate-400" : "text-slate-500")}>/ day</span>
                     </div>
+                    
                     <button 
-                      onClick={() => bookChefService(chef.tier, "Daily Assignment", "₦" + chef.dailyRate.toLocaleString() + " / day")}
+                      onClick={() => bookChefService(chef.tier, "Daily Assignment", chef.dailyRate, discountedDaily, "1 Day Slot")}
                       className="w-full mt-3 bg-orange-600 hover:bg-orange-700 text-white text-[11px] font-black py-2 rounded-xl transition shadow-sm"
                     >
-                      Book Daily Slot
+                      Book Daily Slot (5% Off)
                     </button>
                   </div>
 
+                  {/* Monthly Retainer Stack Node Layout */}
                   <div className="space-y-3">
-                    <span className={"text-[10px] font-bold uppercase tracking-wider block " + (isDark ? "text-slate-500" : "text-slate-400")}>Monthly Retainer Plans</span>
-                    {chef.monthlyOptions.map((opt, idx) => (
-                      <div 
-                        key={idx} 
-                        onClick={() => bookChefService(chef.tier, "Monthly Retainer", opt.frequency + " (₦" + opt.rate.toLocaleString() + ")")}
-                        className={"border p-3 rounded-xl flex items-center justify-between cursor-pointer transition hover:scale-[1.01] active:scale-95 " + (isDark ? "border-slate-800 bg-slate-900/40 hover:border-orange-500/40 hover:bg-slate-900" : "border-slate-100 bg-white hover:border-orange-500/30 hover:bg-orange-50/10")}
-                      >
-                        <div>
-                          <p className="text-[11px] font-black tracking-tight">{opt.frequency}</p>
-                          <p className={"text-[9px] font-bold " + (isDark ? "text-slate-500" : "text-slate-400")}>1 Month Duration</p>
+                    <span className={"text-[10px] font-bold uppercase tracking-wider block " + (isDark ? "text-slate-500" : "text-slate-400")}>
+                      Monthly Retainer Plans (5% Promo Rate)
+                    </span>
+                    {chef.monthlyOptions.map((opt, idx) => {
+                      const discountedMonthly = opt.rate * 0.95;
+                      return (
+                        <div 
+                          key={idx} 
+                          onClick={() => bookChefService(chef.tier, "Monthly Retainer", opt.rate, discountedMonthly, opt.frequency)}
+                          className={"border p-3 rounded-xl flex items-center justify-between cursor-pointer transition hover:scale-[1.01] active:scale-95 " + (isDark ? "border-slate-800 bg-slate-900/40 hover:border-orange-500/40 hover:bg-slate-900" : "border-slate-100 bg-white hover:border-orange-500/30 hover:bg-orange-50/10")}
+                        >
+                          <div>
+                            <p className="text-[11px] font-black tracking-tight">{opt.frequency}</p>
+                            <p className={"text-[9px] font-bold " + (isDark ? "text-slate-500" : "text-slate-400")}>1 Month Duration</p>
+                          </div>
+                          <div className="text-right">
+                            <span className="block text-[10px] line-through text-slate-400 font-bold leading-none">
+                              ₦{opt.rate.toLocaleString()}
+                            </span>
+                            <span className="block text-xs font-black text-green-500 mt-1">
+                              ₦{discountedMonthly.toLocaleString()}
+                            </span>
+                          </div>
                         </div>
-                        <span className="text-xs font-black text-orange-500">₦{opt.rate.toLocaleString()}</span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
