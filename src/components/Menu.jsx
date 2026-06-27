@@ -143,7 +143,7 @@ const categorizedMenu = {
   "Pottages & Sides": {
     title: "Traditional Sides & Pottages",
     desc: "Hearty native bean pottages, slow-simmered local sauces, and dynamic breakfast egg pairings.",
-    image: "/banner-stews.jpg",
+    image: "/banner-pottages.jpg",
     fallbackBg: "from-orange-900 to-amber-950",
     items: [
       { id: "pd1", name: "Plain Beans", type: "variable", sizes: { "1.4L": 12000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } },
