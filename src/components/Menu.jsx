@@ -31,10 +31,10 @@ const categorizedMenu = {
     image: "/banner-combos.jpg",
     fallbackBg: "from-orange-900 to-red-950",
     items: [
-      { id: "tr1", name: "Small Event Tray (Serves 5)", type: "flat", price: 22000, unit: "Tray" },
-      { id: "tr2", name: "Medium Event Tray (Serves 10)", type: "flat", price: 40000, unit: "Tray" },
-      { id: "tr3", name: "Large Event Tray (Serves 20 - Fried/Jollof options)", type: "flat", price: 70000, unit: "Tray" },
-      { id: "tr4", name: "Family Combo (Serves 5 - Rice options, 5 Proteins & Salad)", type: "flat", price: 40000, unit: "Combo" }
+      { id: "tr1", name: "Small Event Tray", type: "flat", price: 22000, unit: "Tray" },
+      { id: "tr2", name: "Medium Event Tray", type: "flat", price: 40000, unit: "Tray" },
+      { id: "tr3", name: "Large Event Tray", type: "flat", price: 70000, unit: "Tray" },
+      { id: "tr4", name: "Family Combo", type: "flat", price: 40000, unit: "Combo" }
     ]
   },
   "Native Soups": {
