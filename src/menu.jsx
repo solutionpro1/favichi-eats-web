@@ -2,6 +2,41 @@ import React, { useState } from "react";
 import { Utensils, ShoppingBag, Plus, Minus, Check, Trash2 } from "lucide-react";
 
 const categorizedMenu = {
+  "Single Meal Packs": {
+    title: "Single Portion Meal Packs",
+    desc: "Premium individual lunches and soup packs. Satisfying, rich, and flavorful. (2 packs minimum per item)",
+    image: "/banner-rice.jpg",
+    fallbackBg: "from-amber-900 to-amber-950",
+    items: [
+      { id: "pk1", name: "Smoky Jollof Rice with Juicy Turkey", type: "flat", price: 7500, unit: "Pack", minQty: 2 },
+      { id: "pk2", name: "Smoky Jollof Rice with Grilled Chicken", type: "flat", price: 5500, unit: "Pack", minQty: 2 },
+      { id: "pk3", name: "Fried Rice with Grilled Turkey", type: "flat", price: 7500, unit: "Pack", minQty: 2 },
+      { id: "pk4", name: "Fried Rice with Grilled Chicken", type: "flat", price: 5500, unit: "Pack", minQty: 2 },
+      { id: "pk5", name: "White Rice with Ayamase Sauce", type: "flat", price: 5500, unit: "Pack", minQty: 2 },
+      { id: "pk6", name: "White Rice with Ofada Sauce", type: "flat", price: 5500, unit: "Pack", minQty: 2 },
+      { id: "pk7", name: "Asun Spaghetti (Spicy Fusion)", type: "flat", price: 6500, unit: "Pack", minQty: 2 },
+      { id: "pk8", name: "Creamy Pasta", type: "flat", price: 8000, unit: "Pack", minQty: 2 },
+      { id: "pk9", name: "Chicken Alfredo Pasta", type: "flat", price: 15000, unit: "Pack", minQty: 2 },
+      { id: "pk10", name: "Stir Fried Spaghetti with Chicken", type: "flat", price: 7000, unit: "Pack", minQty: 2 },
+      { id: "pk11", name: "Jollof Spaghetti with Chicken", type: "flat", price: 6000, unit: "Pack", minQty: 2 },
+      { id: "pk12", name: "Egusi Soup Pack", type: "flat", price: 4500, unit: "Pack", minQty: 2 },
+      { id: "pk13", name: "Efo Riro Pack", type: "flat", price: 5000, unit: "Pack", minQty: 2 },
+      { id: "pk14", name: "Vegetable Soup Pack", type: "flat", price: 5000, unit: "Pack", minQty: 2 },
+      { id: "pk15", name: "Ogbono Soup Pack", type: "flat", price: 4500, unit: "Pack", minQty: 2 }
+    ]
+  },
+  "Event Trays & Combos": {
+    title: "Event Trays & Family Combos",
+    desc: "Mid-sized serving solutions perfect for small gatherings, family dinners, and office events.",
+    image: "/banner-combos.jpg",
+    fallbackBg: "from-orange-900 to-red-950",
+    items: [
+      { id: "tr1", name: "Small Event Tray (Serves 5)", type: "flat", price: 22000, unit: "Tray" },
+      { id: "tr2", name: "Medium Event Tray (Serves 10)", type: "flat", price: 40000, unit: "Tray" },
+      { id: "tr3", name: "Large Event Tray (Serves 20 - Fried/Jollof options)", type: "flat", price: 70000, unit: "Tray" },
+      { id: "tr4", name: "Family Combo (Serves 5 - Rice options, 5 Proteins & Salad)", type: "flat", price: 40000, unit: "Combo" }
+    ]
+  },
   "Native Soups": {
     title: "Authentic Native Soups",
     desc: "Rich, highly seasoned traditional Nigerian soups prepared with choice proteins and absolute care.",
@@ -244,7 +279,8 @@ const categorizedMenu = {
 };
 
 export default function Menu() {
-  const [activeTab, setActiveTab] = useState("Native Soups");
+  // Set the default initial tab to Single Meal Packs instantly on view initialization
+  const [activeTab, setActiveTab] = useState("Single Meal Packs");
   const [selectedItems, setSelectedItems] = useState({});
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchStartY, setTouchStartY] = useState(0);
@@ -265,11 +301,18 @@ export default function Menu() {
     });
   };
 
-  const handleQtyChange = (itemId, itemName, price, unit, change) => {
+  const handleQtyChange = (itemId, itemName, price, unit, change, minQty = 1) => {
     setSelectedItems((prev) => {
       const updated = { ...prev };
       const current = updated[itemId] || { id: itemId, name: itemName, mode: "flat", price, unit, qty: 0 };
-      const newQty = current.qty + change;
+      let newQty = current.qty + change;
+
+      // Automated minimum boundary validation interception rules loop
+      if (change > 0 && current.qty === 0 && minQty > 1) {
+        newQty = minQty; 
+      } else if (change < 0 && newQty < minQty) {
+        newQty = 0; 
+      }
 
       if (newQty <= 0) {
         delete updated[itemId];
@@ -441,12 +484,19 @@ export default function Menu() {
                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                         {item.unit ? "Price per " + item.unit : "Price"}
                       </span>
-                      <span className="text-orange-600 font-black text-sm">{currencyString}{item.price.toLocaleString()}</span>
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-orange-600 font-black text-sm">{currencyString}{item.price.toLocaleString()}</span>
+                        {item.minQty > 1 && (
+                          <span className="text-[9px] bg-amber-50 text-amber-700 font-black px-1.5 py-0.5 rounded border border-amber-100/60 w-max tracking-tight">
+                            Min {item.minQty} Packs
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 p-1 rounded-xl">
                       <button
-                        onClick={() => handleQtyChange(item.id, item.name, item.price, item.unit, -1)}
+                        onClick={() => handleQtyChange(item.id, item.name, item.price, item.unit, -1, item.minQty)}
                         className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-50 active:scale-95 transition"
                       >
                         <Minus size={14} />
@@ -455,7 +505,7 @@ export default function Menu() {
                         {currentSelection?.qty || 0}
                       </span>
                       <button
-                        onClick={() => handleQtyChange(item.id, item.name, item.price, item.unit, 1)}
+                        onClick={() => handleQtyChange(item.id, item.name, item.price, item.unit, 1, item.minQty)}
                         className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-50 active:scale-95 transition"
                       >
                         <Plus size={14} />
