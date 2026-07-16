@@ -17,7 +17,7 @@ const galleryImages = [
   { id: 13, url: "/gallery-13.jpg" },
   { id: 14, url: "/gallery-14.jpg" },
   { id: 15, url: "/gallery-15.jpg" },
-  { id: 15, url: "/gallery-15.jpg" },
+  { id: 15, url: "/gallery-16.jpg" },
 ];
 
 export default function Gallery() {
