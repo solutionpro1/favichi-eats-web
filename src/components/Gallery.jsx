@@ -17,6 +17,7 @@ const galleryImages = [
   { id: 13, url: "/gallery-13.jpg" },
   { id: 14, url: "/gallery-14.jpg" },
   { id: 15, url: "/gallery-15.jpg" },
+  { id: 15, url: "/gallery-15.jpg" },
 ];
 
 export default function Gallery() {
@@ -65,7 +66,7 @@ export default function Gallery() {
         {/* Header Block with Slideshow Controls */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-8 gap-4 text-center sm:text-left">
           <div>
-            <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Our Food Gallery</h3>
+            <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">What we offer</h3>
             <p className="text-sm text-slate-500 mt-1">Viewing our freshly curated culinary executions</p>
           </div>
           

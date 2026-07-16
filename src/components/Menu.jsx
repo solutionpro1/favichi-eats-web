@@ -34,7 +34,10 @@ const categorizedMenu = {
       { id: "tr1", name: "Small Event Tray (Serves 5)", type: "flat", price: 22000, unit: "Tray" },
       { id: "tr2", name: "Medium Event Tray (Serves 10)", type: "flat", price: 40000, unit: "Tray" },
       { id: "tr3", name: "Large Event Tray (Serves 20 - Fried/Jollof options)", type: "flat", price: 70000, unit: "Tray" },
-      { id: "tr4", name: "Family Combo (Serves 5 - Rice options, 5 Proteins & Salad)", type: "flat", price: 40000, unit: "Combo" }
+      { id: "tr4", name: "Family Combo (Serves 5 - Rice options, 5 Proteins & Salad)", type: "flat", price: 40000, unit: "Combo" },
+      { id: "tr5", name: "Complete Salad (Small Tray)", type: "flat", price: 25000, unit: "Tray" },
+      { id: "tr6", name: "Complete Salad (Medium Tray)", type: "flat", price: 40000, unit: "Tray" },
+      { id: "tr7", name: "Complete Salad (Big Tray)", type: "flat", price: 65000, unit: "Tray" }
     ]
   },
   "Native Soups": {
@@ -169,7 +172,7 @@ const categorizedMenu = {
       { id: "gr5", name: "Small Chop (Big)", type: "flat", price: 35000, unit: "pack" },
       { id: "gr6", name: "Chops & Grills (Small)", type: "flat", price: 30000, unit: "pack" },
       { id: "gr7", name: "Chops & Grills (Medium)", type: "flat", price: 45000, unit: "pack" },
-      { id: "gr8", name: "Chops & Grills (Big)", type: "flat", price: 60000, textPayload: "pack" },
+      { id: "gr8", name: "Chops & Grills (Big)", type: "flat", price: 60000, unit: "pack" },
       { id: "gr9", name: "BBQ Turkey (Small Pack)", type: "flat", price: 40000, unit: "10 pieces" },
       { id: "gr10", name: "BBQ Turkey (Big Pack)", type: "flat", price: 70000, unit: "10 pieces" },
       { id: "gr11", name: "BBQ Chicken Pack", type: "flat", price: 50000, unit: "10 pieces" }
@@ -178,7 +181,7 @@ const categorizedMenu = {
   "Pottages & Sides": {
     title: "Traditional Sides & Pottages",
     desc: "Hearty native bean pottages, slow-simmered local sauces, and dynamic breakfast egg pairings.",
-    image: "/banner-stews.jpg",
+    image: "/banner-pottages.jpg",
     fallbackBg: "from-orange-900 to-amber-950",
     items: [
       { id: "pd1", name: "Plain Beans", type: "variable", sizes: { "1.4L": 12000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } },
@@ -191,7 +194,8 @@ const categorizedMenu = {
       { id: "pd8", name: "Ugba Sauce for Yam", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } },
       { id: "pd9", name: "Abacha (With Fish & Pomo)", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } },
       { id: "pd10", name: "Yam and Egg Sauce", type: "variable", sizes: { "1.4L": 28000, "2.4L": 40000, "3.5L": 50000, "5L": 65000 } },
-      { id: "pd11", name: "Ewa & Aganyin Sauce", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } }
+      { id: "pd11", name: "Ewa & Aganyin Sauce", type: "variable", sizes: { "1.4L": 25000, "2.4L": 35000, "3.5L": 45000, "5L": 60000 } },
+      { id: "pd12", name: "Ukwa", type: "variable", sizes: { "1.4L": 38000, "2.4L": 48000, "3.5L": 60000, "5L": 80000 } }
     ]
   },
   "Party Combos": {
@@ -395,7 +399,6 @@ export default function Menu() {
   };
 
   const fireWhatsAppOrder = () => {
-    // Modified validator: accepts either a written address OR a pinned GPS coordinate link
     if (!deliveryAddress.trim() && !gpsLocationLink) {
       alert("Please enter your delivery address or pin your GPS location before proceeding.");
       return;
@@ -568,11 +571,9 @@ export default function Menu() {
         </div>
       </div>
 
-      {/* Persistent Global Cart & Location Interceptor Modal Wrapper */}
       {currentTotal > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 md:p-5 z-50 flex flex-col gap-4 transition-all duration-300">
           
-          {/* LOCATION SELECTION INTERCEPTOR PANEL */}
           {isCheckingOut && (
             <div className="border-b border-slate-800 pb-4 pt-1 animate-fadeIn">
               <div className="flex items-center gap-2 text-orange-400 font-black text-xs uppercase tracking-widest mb-3">
@@ -618,7 +619,6 @@ export default function Menu() {
             </div>
           )}
 
-          {/* BASE CART CONTROLS */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center justify-between md:justify-start gap-4 w-full md:w-auto">
               <div className="flex items-center gap-3">

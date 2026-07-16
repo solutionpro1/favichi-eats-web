@@ -169,7 +169,7 @@ const categorizedMenu = {
       { id: "gr5", name: "Small Chop (Big)", type: "flat", price: 35000, unit: "pack" },
       { id: "gr6", name: "Chops & Grills (Small)", type: "flat", price: 30000, unit: "pack" },
       { id: "gr7", name: "Chops & Grills (Medium)", type: "flat", price: 45000, unit: "pack" },
-      { id: "gr8", name: "Chops & Grills (Big)", type: "flat", price: 60000, unit: "pack" },
+      { id: "gr8", name: "Chops & Grills (Big)", type: "flat", price: 60000, textPayload: "pack" },
       { id: "gr9", name: "BBQ Turkey (Small Pack)", type: "flat", price: 40000, unit: "10 pieces" },
       { id: "gr10", name: "BBQ Turkey (Big Pack)", type: "flat", price: 70000, unit: "10 pieces" },
       { id: "gr11", name: "BBQ Chicken Pack", type: "flat", price: 50000, unit: "10 pieces" }
@@ -284,7 +284,7 @@ export default function Menu() {
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchStartY, setTouchStartY] = useState(0);
 
-  // Delivery state variables
+  // Delivery states
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [gpsLocationLink, setGpsLocationLink] = useState("");
@@ -395,8 +395,9 @@ export default function Menu() {
   };
 
   const fireWhatsAppOrder = () => {
-    if (!deliveryAddress.trim()) {
-      alert("Please enter your complete physical delivery address before proceeding.");
+    // Modified validator: accepts either a written address OR a pinned GPS coordinate link
+    if (!deliveryAddress.trim() && !gpsLocationLink) {
+      alert("Please enter your delivery address or pin your GPS location before proceeding.");
       return;
     }
 
@@ -416,12 +417,12 @@ export default function Menu() {
 
     textPayload += "\nTotal Payable Amount: ₦" + finalSubtotal.toLocaleString() + "\n\n";
     textPayload += "📍 DELIVERY DETAILS:\n";
-    textPayload += "Address: " + deliveryAddress.trim() + "\n";
     
+    if (deliveryAddress.trim()) {
+      textPayload += "Address: " + deliveryAddress.trim() + "\n";
+    }
     if (gpsLocationLink) {
       textPayload += "Google Maps GPS Link: " + gpsLocationLink + "\n";
-    } else {
-      textPayload += "Google Maps GPS Link: Not provided by user\n";
     }
 
     textPayload += "\nPlease verify confirmation timelines. Thank you!";
@@ -571,7 +572,7 @@ export default function Menu() {
       {currentTotal > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 md:p-5 z-50 flex flex-col gap-4 transition-all duration-300">
           
-          {/* STEP 2: SLIDE DOWN LOCATION SELECTION INTERCEPTOR PANEL */}
+          {/* LOCATION SELECTION INTERCEPTOR PANEL */}
           {isCheckingOut && (
             <div className="border-b border-slate-800 pb-4 pt-1 animate-fadeIn">
               <div className="flex items-center gap-2 text-orange-400 font-black text-xs uppercase tracking-widest mb-3">
@@ -652,8 +653,8 @@ export default function Menu() {
             ) : (
               <button
                 onClick={fireWhatsAppOrder}
-                disabled={!deliveryAddress.trim()}
-                className={"w-full md:w-auto text-white font-black text-xs px-6 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 " + (deliveryAddress.trim() ? "bg-green-600 hover:bg-green-700" : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-800/50")}
+                disabled={!deliveryAddress.trim() && !gpsLocationLink}
+                className={"w-full md:w-auto text-white font-black text-xs px-6 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 " + (deliveryAddress.trim() || gpsLocationLink ? "bg-green-600 hover:bg-green-700" : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-800/50")}
               >
                 Forward Order to WhatsApp ({Object.values(selectedItems).reduce((a, b) => a + b.qty, 0)} items)
               </button>
