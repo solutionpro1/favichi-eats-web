@@ -288,6 +288,9 @@ export default function Menu() {
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchStartY, setTouchStartY] = useState(0);
 
+  // Flying Particle animation state
+  const [flyingItem, setFlyingItem] = useState(null);
+
   // Delivery states
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [deliveryAddress, setDeliveryAddress] = useState("");
@@ -299,7 +302,17 @@ export default function Menu() {
   const currencyString = "₦";
   const categoriesList = Object.keys(categorizedMenu);
 
+  const triggerFlyAnimation = (itemName) => {
+    setFlyingItem(itemName);
+    setTimeout(() => {
+      setFlyingItem(null);
+    }, 900);
+  };
+
   const handleSizeChange = (itemId, itemName, size, price) => {
+    if (size) {
+      triggerFlyAnimation(itemName);
+    }
     setSelectedItems((prev) => {
       const updated = { ...prev };
       if (!size) {
@@ -312,6 +325,9 @@ export default function Menu() {
   };
 
   const handleQtyChange = (itemId, itemName, price, unit, change, minQty = 1) => {
+    if (change > 0) {
+      triggerFlyAnimation(itemName);
+    }
     setSelectedItems((prev) => {
       const updated = { ...prev };
       const current = updated[itemId] || { id: itemId, name: itemName, mode: "flat", price, unit, qty: 0 };
@@ -371,7 +387,6 @@ export default function Menu() {
     }
   };
 
-  // GPS Pin Generation Engine
   const fetchGpsCoordinates = () => {
     if (!navigator.geolocation) {
       setGeoStatus("🚨 GPS is not supported by your browser/device.");
@@ -437,7 +452,18 @@ export default function Menu() {
   const currentTotal = calculateTotal();
 
   return (
-    <section className="py-12 bg-white/40 px-4 md:px-6 border-y border-orange-100 relative">
+    <section className="py-12 bg-white/40 px-4 md:px-6 border-y border-orange-100 relative overflow-hidden">
+      
+      {/* FLYING ADD-TO-CART PARTICLE ANIMATION */}
+      {flyingItem && (
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] pointer-events-none animate-bounce">
+          <div className="bg-orange-600 text-white font-black text-xs md:text-sm px-5 py-3 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-2 transform transition duration-700 scale-110">
+            <ShoppingBag size={18} className="animate-spin" />
+            <span>Added "{flyingItem}" to cart! 🛒</span>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto pb-28">
         
         <div className="text-center mb-6">
@@ -455,7 +481,7 @@ export default function Menu() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={"px-4 py-2.5 rounded-full text-xs font-black tracking-tight transition whitespace-nowrap shrink-0 " + (activeTab === tab ? "bg-orange-600 text-white shadow-sm" : "bg-orange-50 text-orange-800 hover:bg-orange-100/80")}
+              className={"px-4 py-2.5 rounded-full text-xs font-black tracking-tight transition-all duration-300 transform active:scale-95 whitespace-nowrap shrink-0 " + (activeTab === tab ? "bg-orange-600 text-white shadow-md scale-105" : "bg-orange-50 text-orange-800 hover:bg-orange-100/80")}
             >
               {tab}
             </button>
@@ -464,7 +490,7 @@ export default function Menu() {
 
         <div 
           key={activeTab}
-          className={"w-full rounded-3xl mb-8 min-h-[180px] md:min-h-[240px] shadow-sm relative overflow-hidden bg-gradient-to-br flex flex-col justify-end p-6 md:p-10 transition-all duration-500 bg-cover bg-center " + currentCategory.fallbackBg}
+          className={"w-full rounded-3xl mb-8 min-h-[180px] md:min-h-[240px] shadow-sm relative overflow-hidden bg-gradient-to-br flex flex-col justify-end p-6 md:p-10 transition-all duration-700 transform bg-cover bg-center animate-fadeIn " + currentCategory.fallbackBg}
           style={{ backgroundImage: "url(" + currentCategory.image + ")" }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent z-0"></div>
@@ -486,13 +512,13 @@ export default function Menu() {
             return (
               <div 
                 key={item.id} 
-                className={"border rounded-2xl p-5 transition flex flex-col justify-between " + (currentSelection ? "border-orange-500 bg-orange-50/40 ring-2 ring-orange-500/10 shadow-sm" : "border-slate-100 bg-white/90 hover:border-orange-200")}
+                className={"border rounded-2xl p-5 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg flex flex-col justify-between " + (currentSelection ? "border-orange-500 bg-orange-50/60 ring-2 ring-orange-500/20 shadow-md scale-[1.02]" : "border-slate-100 bg-white/90 hover:border-orange-200")}
               >
                 <div className="w-full">
                   <div className="flex justify-between items-start gap-2">
                     <h4 className="font-bold text-slate-900 text-base leading-tight">{item.name}</h4>
                     {currentSelection && (
-                      <span className="bg-orange-600 text-white rounded-full p-0.5 shrink-0">
+                      <span className="bg-orange-600 text-white rounded-full p-1 shrink-0 animate-bounce shadow-sm">
                         <Check size={12} strokeWidth={3} />
                       </span>
                     )}
@@ -519,7 +545,7 @@ export default function Menu() {
                         const size = e.target.value;
                         handleSizeChange(item.id, item.name, size || null, size ? item.sizes[size] : 0);
                       }}
-                      className="w-full bg-slate-50 border border-slate-200 text-xs font-semibold p-2.5 rounded-xl text-slate-700 focus:outline-none focus:border-orange-500 focus:bg-white"
+                      className="w-full bg-slate-50 border border-slate-200 text-xs font-semibold p-2.5 rounded-xl text-slate-700 focus:outline-none focus:border-orange-500 focus:bg-white transition-all shadow-inner"
                     >
                       <option value="">-- Choose Liters / Price --</option>
                       {Object.entries(item.sizes).map(([size, price]) => (
@@ -545,10 +571,10 @@ export default function Menu() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 p-1 rounded-xl">
+                    <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 p-1 rounded-xl shadow-inner">
                       <button
                         onClick={() => handleQtyChange(item.id, item.name, item.price, item.unit, -1, item.minQty)}
-                        className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-50 active:scale-95 transition"
+                        className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-100 active:scale-90 transition"
                       >
                         <Minus size={14} />
                       </button>
@@ -557,7 +583,7 @@ export default function Menu() {
                       </span>
                       <button
                         onClick={() => handleQtyChange(item.id, item.name, item.price, item.unit, 1, item.minQty)}
-                        className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-50 active:scale-95 transition"
+                        className="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-orange-100 hover:text-orange-700 active:scale-90 transition"
                       >
                         <Plus size={14} />
                       </button>
@@ -572,7 +598,7 @@ export default function Menu() {
       </div>
 
       {currentTotal > 0 && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 md:p-5 z-50 flex flex-col gap-4 transition-all duration-300">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 md:p-5 z-50 flex flex-col gap-4 transition-all duration-500 transform animate-slideUp">
           
           {isCheckingOut && (
             <div className="border-b border-slate-800 pb-4 pt-1 animate-fadeIn">
@@ -622,7 +648,7 @@ export default function Menu() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center justify-between md:justify-start gap-4 w-full md:w-auto">
               <div className="flex items-center gap-3">
-                <div className="bg-orange-600 p-2.5 rounded-xl text-white">
+                <div className="bg-orange-600 p-2.5 rounded-xl text-white animate-pulse">
                   <ShoppingBag size={18} />
                 </div>
                 <div>
@@ -635,7 +661,7 @@ export default function Menu() {
 
               <button
                 onClick={clearSelection}
-                className="flex items-center gap-1.5 text-xs font-black text-red-400 hover:text-red-300 transition bg-red-500/10 hover:bg-red-500/20 px-3 py-2 rounded-xl border border-red-500/20"
+                className="flex items-center gap-1.5 text-xs font-black text-red-400 hover:text-red-300 transition bg-red-500/10 hover:bg-red-500/20 px-3 py-2 rounded-xl border border-red-500/20 active:scale-95"
                 title="Reset Order Selection"
               >
                 <Trash2 size={13} />
@@ -646,7 +672,7 @@ export default function Menu() {
             {!isCheckingOut ? (
               <button
                 onClick={() => setIsCheckingOut(true)}
-                className="w-full md:w-auto bg-orange-600 hover:bg-orange-700 text-white font-black text-xs px-6 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2"
+                className="w-full md:w-auto bg-orange-600 hover:bg-orange-700 text-white font-black text-xs px-6 py-3.5 rounded-xl transition-all duration-300 shadow-md hover:scale-105 flex items-center justify-center gap-2"
               >
                 Proceed to Checkout Details
               </button>
@@ -654,7 +680,7 @@ export default function Menu() {
               <button
                 onClick={fireWhatsAppOrder}
                 disabled={!deliveryAddress.trim() && !gpsLocationLink}
-                className={"w-full md:w-auto text-white font-black text-xs px-6 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 " + (deliveryAddress.trim() || gpsLocationLink ? "bg-green-600 hover:bg-green-700" : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-800/50")}
+                className={"w-full md:w-auto text-white font-black text-xs px-6 py-3.5 rounded-xl transition-all duration-300 shadow-md flex items-center justify-center gap-2 " + (deliveryAddress.trim() || gpsLocationLink ? "bg-green-600 hover:bg-green-700 hover:scale-105" : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-800/50")}
               >
                 Forward Order to WhatsApp ({Object.values(selectedItems).reduce((a, b) => a + b.qty, 0)} items)
               </button>
