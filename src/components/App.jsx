@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, MessageSquare } from 'lucide-react';
+import { Phone, MapPin, MessageSquare, X, Sparkles, PartyPopper, Gift, Award } from 'lucide-react';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import Booking from './components/Booking';
@@ -7,24 +7,81 @@ import RentAChef from './components/RentAChef';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 import FloatingSocials from './components/FloatingSocials';
-
 import logoAsset from './assets/logo.png';
+
+// Popup Component
+const PopupAd = ({ imageUrl, onClose }) => (
+  <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
+    <div className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden animate-zoomIn">
+      <button onClick={onClose} className="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full z-10 transition">
+        <X size={20} />
+      </button>
+      <img src={imageUrl} alt="Advertisement" className="w-full h-auto object-cover" />
+    </div>
+  </div>
+);
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [showAd, setShowAd] = useState(false);
   const whatsappNumber = "2348154064345";
   const businessAddress = "10 Lawal Oladipo Street, Abukon Stop, Off Temidire Road, Alagbado, Lagos";
 
   useEffect(() => {
-    // Timer set to 1000ms (1 second)
-    const timer = setTimeout(() => setLoading(false), 1000);
+    // 1-second loading splash screen
+    const timer = setTimeout(() => {
+      setLoading(false);
+      // Show ad 1 second after loading finishes
+      setTimeout(() => setShowAd(true), 1000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative">
+    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative overflow-hidden">
       
-      {/* LOADING SPLASH SCREEN (Perfectly Centered) */}
+      {/* 5TH ANNIVERSARY SVG VISUAL FLARE (Rich Vector Confetti & Badges) */}
+      <div className="fixed inset-0 pointer-events-none z-[60] overflow-hidden">
+        {/* Top-left cluster */}
+        <div className="absolute top-2 left-6 text-orange-500 animate-bounce duration-1000 opacity-80">
+          <Sparkles size={24} />
+        </div>
+        <div className="absolute top-12 left-20 text-yellow-500 animate-pulse opacity-75">
+          <PartyPopper size={28} />
+        </div>
+        
+        {/* Upper middle cluster */}
+        <div className="absolute top-4 left-[32%] text-amber-600 animate-bounce delay-300 opacity-70">
+          <Gift size={26} />
+        </div>
+        <div className="absolute top-10 left-[48%] text-orange-600 animate-pulse delay-700 opacity-80">
+          <Award size={28} />
+        </div>
+
+        {/* Top-right cluster */}
+        <div className="absolute top-3 right-[28%] text-yellow-500 animate-bounce delay-500 opacity-75">
+          <Sparkles size={22} />
+        </div>
+        <div className="absolute top-14 right-16 text-orange-500 animate-pulse duration-1000 opacity-80">
+          <PartyPopper size={30} />
+        </div>
+        <div className="absolute top-2 right-6 text-amber-600 animate-bounce delay-1000 opacity-75">
+          <Gift size={24} />
+        </div>
+
+        {/* Mid-screen floating elements for depth */}
+        <div className="absolute top-44 left-4 text-orange-400/40 animate-pulse">
+          <Sparkles size={18} />
+        </div>
+        <div className="absolute top-56 right-6 text-yellow-500/40 animate-bounce">
+          <Sparkles size={20} />
+        </div>
+      </div>
+
+      {/* ADVERTISEMENT POPUP */}
+      {showAd && <PopupAd imageUrl="/my-ad-image.jpg" onClose={() => setShowAd(false)} />}
+
+      {/* LOADING SPLASH SCREEN */}
       {loading && (
         <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center transition-opacity duration-500">
           <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl overflow-hidden shadow-2xl animate-pulse p-1">
@@ -40,27 +97,19 @@ export default function App() {
             <div className="w-11 h-11 md:w-16 md:h-16 rounded-xl md:rounded-2xl overflow-hidden shadow-sm border border-orange-100 bg-orange-50 shrink-0 p-0.5">
               <img src={logoAsset} alt="Logo" className="w-full h-full object-cover rounded-lg md:rounded-xl" />
             </div>
-            <h1 className="text-sm md:text-xl font-black text-orange-600 tracking-tight block">
-              Everyday Favichi_eats
-            </h1>
+            <h1 className="text-sm md:text-xl font-black text-orange-600 tracking-tight block">Everyday Favichi_eats</h1>
           </div>
-          
-          <a 
-            href={`https://wa.me/${whatsappNumber}?text=Hello%20Everyday%20Favichi_eats,%20I%20am%20ordering!`} 
-            target="_blank" 
-            rel="noreferrer"
-            className="bg-green-600 text-white text-[11px] md:text-sm font-bold px-3.5 md:px-5 py-2 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 hover:bg-green-700 transition shadow-sm whitespace-nowrap"
-          >
+          <a href={`https://wa.me/${whatsappNumber}?text=Hello%20Everyday%20Favichi_eats,%20I%20am%20ordering!`} target="_blank" rel="noreferrer" className="bg-green-600 text-white text-[11px] md:text-sm font-bold px-3.5 md:px-5 py-2 md:py-2.5 rounded-full flex items-center gap-1.5 md:gap-2 hover:bg-green-700 transition shadow-sm whitespace-nowrap">
             <MessageSquare size={14} /> Order via WhatsApp
           </a>
         </header>
 
         <div className="relative z-10">
           <Hero />
+          <Gallery />
           <Menu />
           <Booking onBooking={(service) => window.open(`https://wa.me/${whatsappNumber}?text=Inquiry%20about%20${encodeURIComponent(service)}`, '_blank')} />
           <RentAChef />
-          <Gallery />
           <section className="py-16 px-6 bg-slate-900 text-white grid md:grid-cols-2 gap-12 items-center border-t border-slate-800">
             <div className="max-w-md mx-auto md:mx-0 md:pl-12">
               <h3 className="text-2xl font-black text-white mb-4">Everyday Favichi_eats</h3>

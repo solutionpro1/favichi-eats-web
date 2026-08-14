@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Utensils, ShoppingBag, Plus, Minus, Check, Trash2, MapPin, Navigation, ArrowLeft } from "lucide-react";
 
+// Helper function for 5% anniversary discount
+const getDiscountedPrice = (price) => Math.round(price * 0.95);
+
 const categorizedMenu = {
   "Single Meal Packs": {
     title: "Single Portion Meal Packs",
@@ -309,28 +312,47 @@ export default function Menu() {
     }, 900);
   };
 
-  const handleSizeChange = (itemId, itemName, size, price) => {
+  const handleSizeChange = (itemId, itemName, size, originalPrice) => {
     if (size) {
       triggerFlyAnimation(itemName);
-    }
-    setSelectedItems((prev) => {
-      const updated = { ...prev };
-      if (!size) {
+      const discountedPrice = getDiscountedPrice(originalPrice);
+      setSelectedItems((prev) => ({
+        ...prev,
+        [itemId]: { 
+          id: itemId, 
+          name: itemName, 
+          mode: "variable", 
+          size, 
+          price: discountedPrice, 
+          originalPrice: originalPrice, 
+          qty: 1 
+        }
+      }));
+    } else {
+      setSelectedItems((prev) => {
+        const updated = { ...prev };
         delete updated[itemId];
-      } else {
-        updated[itemId] = { id: itemId, name: itemName, mode: "variable", size, price, qty: 1 };
-      }
-      return updated;
-    });
+        return updated;
+      });
+    }
   };
 
-  const handleQtyChange = (itemId, itemName, price, unit, change, minQty = 1) => {
+  const handleQtyChange = (itemId, itemName, originalPrice, unit, change, minQty = 1) => {
+    const discountedPrice = getDiscountedPrice(originalPrice);
     if (change > 0) {
       triggerFlyAnimation(itemName);
     }
     setSelectedItems((prev) => {
       const updated = { ...prev };
-      const current = updated[itemId] || { id: itemId, name: itemName, mode: "flat", price, unit, qty: 0 };
+      const current = updated[itemId] || { 
+        id: itemId, 
+        name: itemName, 
+        mode: "flat", 
+        price: discountedPrice, 
+        originalPrice: originalPrice, 
+        unit, 
+        qty: 0 
+      };
       let newQty = current.qty + change;
 
       if (change > 0 && current.qty === 0 && minQty > 1) {
@@ -342,7 +364,7 @@ export default function Menu() {
       if (newQty <= 0) {
         delete updated[itemId];
       } else {
-        updated[itemId] = { ...current, qty: newQty };
+        updated[itemId] = { ...current, qty: newQty, price: discountedPrice, originalPrice: originalPrice };
       }
       return updated;
     });
@@ -358,6 +380,10 @@ export default function Menu() {
 
   const calculateTotal = () => {
     return Object.values(selectedItems).reduce((sum, item) => sum + (item.price * item.qty), 0);
+  };
+
+  const calculateOriginalTotal = () => {
+    return Object.values(selectedItems).reduce((sum, item) => sum + (item.originalPrice * item.qty), 0);
   };
 
   const handleTouchStart = (e) => {
@@ -423,17 +449,19 @@ export default function Menu() {
     if (itemsArray.length === 0) return;
 
     const finalSubtotal = calculateTotal();
+    const originalSubtotal = calculateOriginalTotal();
 
-    let textPayload = "Hello Everyday Favichi_eats, I want to place a custom food order from your website portal:\n\n";
+    let textPayload = "Hello Everyday Favichi_eats, I want to place a 5th Anniversary custom order from your website:\n\n";
     itemsArray.forEach((item) => {
       if (item.mode === "variable") {
-        textPayload += "• " + item.name + " (" + item.size + ") — ₦" + item.price.toLocaleString() + "\n";
+        textPayload += "• " + item.name + " (" + item.size + ") — Old: ₦" + (item.originalPrice).toLocaleString() + " | New (5% Off): ₦" + item.price.toLocaleString() + "\n";
       } else {
-        textPayload += "• " + item.name + " x" + item.qty + " — ₦" + (item.price * item.qty).toLocaleString() + "\n";
+        textPayload += "• " + item.name + " x" + item.qty + " — Old: ₦" + (item.originalPrice * item.qty).toLocaleString() + " | New (5% Off): ₦" + (item.price * item.qty).toLocaleString() + "\n";
       }
     });
 
-    textPayload += "\nTotal Payable Amount: ₦" + finalSubtotal.toLocaleString() + "\n\n";
+    textPayload += "\nOriginal Total: ₦" + originalSubtotal.toLocaleString() + "\n";
+    textPayload += "Anniversary Total Payable (5% Off): ₦" + finalSubtotal.toLocaleString() + "\n\n";
     textPayload += "📍 DELIVERY DETAILS:\n";
     
     if (deliveryAddress.trim()) {
@@ -450,6 +478,7 @@ export default function Menu() {
 
   const currentCategory = categorizedMenu[activeTab];
   const currentTotal = calculateTotal();
+  const currentOriginalTotal = calculateOriginalTotal();
 
   return (
     <section className="py-12 bg-white/40 px-4 md:px-6 border-y border-orange-100 relative overflow-hidden">
@@ -459,13 +488,20 @@ export default function Menu() {
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] pointer-events-none animate-bounce">
           <div className="bg-orange-600 text-white font-black text-xs md:text-sm px-5 py-3 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-2 transform transition duration-700 scale-110">
             <ShoppingBag size={18} className="animate-spin" />
-            <span>Added "{flyingItem}" to cart! 🛒</span>
+            <span>Added "{flyingItem}" (5% Off) to cart! 🛒</span>
           </div>
         </div>
       )}
 
-      <div className="max-w-6xl mx-auto pb-28">
+      <div className="max-w-6xl mx-auto pb-32">
         
+        {/* AUTOMATIC 5TH ANNIVERSARY BANNER (Shows on/after Aug 17, 2026) */}
+        {new Date() >= new Date('2026-08-17T00:00:00') && (
+          <div className="bg-yellow-400 text-black font-black text-center py-4 mb-6 rounded-2xl shadow-lg transform -rotate-1 animate-pulse border-4 border-yellow-500">
+            🎉 CELEBRATING 5 YEARS OF EXCELLENCE! ENJOY 5% OFF ALL MENU ITEMS! 🎉
+          </div>
+        )}
+
         <div className="text-center mb-6">
           <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Build Your Custom Feast</h3>
           <p className="text-sm text-slate-500 mt-2 max-w-xl mx-auto">
@@ -538,7 +574,7 @@ export default function Menu() {
 
                 {item.type === "variable" ? (
                   <div className="mt-5 w-full">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Select Size Variant</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Select Size Variant (5% Off)</label>
                     <select
                       value={currentSelection?.size || ""}
                       onChange={(e) => {
@@ -548,11 +584,14 @@ export default function Menu() {
                       className="w-full bg-slate-50 border border-slate-200 text-xs font-semibold p-2.5 rounded-xl text-slate-700 focus:outline-none focus:border-orange-500 focus:bg-white transition-all shadow-inner"
                     >
                       <option value="">-- Choose Liters / Price --</option>
-                      {Object.entries(item.sizes).map(([size, price]) => (
-                        <option key={size} value={size}>
-                          {size} Bowl — {currencyString}{price.toLocaleString()}
-                        </option>
-                      ))}
+                      {Object.entries(item.sizes).map(([size, originalPrice]) => {
+                        const discounted = getDiscountedPrice(originalPrice);
+                        return (
+                          <option key={size} value={size}>
+                            {size} Bowl — ₦{discounted.toLocaleString()} (was ₦{originalPrice.toLocaleString()})
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 ) : (
@@ -561,14 +600,15 @@ export default function Menu() {
                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                         {item.unit ? "Price per " + item.unit : "Price"}
                       </span>
-                      <div className="flex flex-col gap-0.5">
-                        <span className="text-orange-600 font-black text-sm">{currencyString}{item.price.toLocaleString()}</span>
-                        {item.minQty > 1 && (
-                          <span className="text-[9px] bg-amber-50 text-amber-700 font-black px-1.5 py-0.5 rounded border border-amber-100/60 w-max tracking-tight">
-                            Min {item.minQty} Packs
-                          </span>
-                        )}
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-slate-400 line-through text-xs font-semibold">₦{item.price.toLocaleString()}</span>
+                        <span className="text-orange-600 font-black text-sm">₦{getDiscountedPrice(item.price).toLocaleString()}</span>
                       </div>
+                      {item.minQty > 1 && (
+                        <span className="text-[9px] bg-amber-50 text-amber-700 font-black px-1.5 py-0.5 rounded border border-amber-100/60 w-max tracking-tight mt-1 block">
+                          Min {item.minQty} Packs
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 p-1 rounded-xl shadow-inner">
@@ -600,6 +640,28 @@ export default function Menu() {
       {currentTotal > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 md:p-5 z-50 flex flex-col gap-4 transition-all duration-500 transform animate-slideUp">
           
+          {/* SELECTED ITEMS CART BREAKDOWN WITH CROSSED-OUT PRICES */}
+          <div className="border-b border-slate-800 pb-3 max-h-36 overflow-y-auto no-scrollbar">
+            <h5 className="text-[10px] font-bold text-yellow-400 uppercase tracking-widest mb-2">Cart Items (5% Anniversary Discount Applied):</h5>
+            <div className="space-y-1.5">
+              {Object.values(selectedItems).map((item) => (
+                <div key={item.id + (item.size || '')} className="flex justify-between items-center text-xs">
+                  <span className="text-slate-300 font-medium">
+                    {item.name} {item.size ? `(${item.size})` : `x${item.qty}`}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-slate-500 line-through">
+                      ₦{(item.originalPrice * (item.qty || 1)).toLocaleString()}
+                    </span>
+                    <span className="text-orange-400 font-bold">
+                      ₦{(item.price * (item.qty || 1)).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {isCheckingOut && (
             <div className="border-b border-slate-800 pb-4 pt-1 animate-fadeIn">
               <div className="flex items-center gap-2 text-orange-400 font-black text-xs uppercase tracking-widest mb-3">
@@ -652,10 +714,15 @@ export default function Menu() {
                   <ShoppingBag size={18} />
                 </div>
                 <div>
-                  <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Estimated Summary</h5>
-                  <p className="text-lg font-black text-orange-400 mt-0.5">
-                    ₦{currentTotal.toLocaleString()}
-                  </p>
+                  <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">5% Anniversary Total</h5>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-slate-500 line-through text-xs font-semibold">
+                      ₦{currentOriginalTotal.toLocaleString()}
+                    </span>
+                    <span className="text-lg font-black text-orange-400">
+                      ₦{currentTotal.toLocaleString()}
+                    </span>
+                  </div>
                 </div>
               </div>
 

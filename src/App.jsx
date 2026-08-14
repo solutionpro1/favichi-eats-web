@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, MessageSquare, X } from 'lucide-react';
+import { Phone, MapPin, MessageSquare, X, Sparkles, PartyPopper, Gift, Award } from 'lucide-react';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import Booking from './components/Booking';
@@ -38,8 +38,35 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative">
+    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative overflow-hidden">
       
+      {/* AUTOMATIC 5TH ANNIVERSARY SVG VISUAL FLARE (Active from Aug 17, 2026 onwards) */}
+      {new Date() >= new Date('2026-08-17T00:00:00') && (
+        <div className="fixed inset-0 pointer-events-none z-[60] overflow-hidden">
+          <div className="absolute top-2 left-6 text-orange-500 animate-bounce duration-1000 opacity-80">
+            <Sparkles size={24} />
+          </div>
+          <div className="absolute top-12 left-20 text-yellow-500 animate-pulse opacity-75">
+            <PartyPopper size={28} />
+          </div>
+          <div className="absolute top-4 left-[32%] text-amber-600 animate-bounce delay-300 opacity-70">
+            <Gift size={26} />
+          </div>
+          <div className="absolute top-10 left-[48%] text-orange-600 animate-pulse delay-700 opacity-80">
+            <Award size={28} />
+          </div>
+          <div className="absolute top-3 right-[28%] text-yellow-500 animate-bounce delay-500 opacity-75">
+            <Sparkles size={22} />
+          </div>
+          <div className="absolute top-14 right-16 text-orange-500 animate-pulse duration-1000 opacity-80">
+            <PartyPopper size={30} />
+          </div>
+          <div className="absolute top-2 right-6 text-amber-600 animate-bounce delay-1000 opacity-75">
+            <Gift size={24} />
+          </div>
+        </div>
+      )}
+
       {/* ADVERTISEMENT POPUP */}
       {showAd && <PopupAd imageUrl="/my-ad-image.jpg" onClose={() => setShowAd(false)} />}
 
