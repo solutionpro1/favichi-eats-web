@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, MessageSquare, X, Sparkles, PartyPopper, Gift, Award } from 'lucide-react';
+import { Phone, MapPin, MessageSquare } from 'lucide-react';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import Booking from './components/Booking';
@@ -9,67 +9,20 @@ import Footer from './components/Footer';
 import FloatingSocials from './components/FloatingSocials';
 import logoAsset from './assets/logo.png';
 
-// Popup Component
-const PopupAd = ({ imageUrl, onClose }) => (
-  <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
-    <div className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden animate-zoomIn">
-      <button onClick={onClose} className="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full z-10 transition">
-        <X size={20} />
-      </button>
-      <img src={imageUrl} alt="Advertisement" className="w-full h-auto object-cover" />
-    </div>
-  </div>
-);
-
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [showAd, setShowAd] = useState(false);
   const whatsappNumber = "2348154064345";
   const businessAddress = "10 Lawal Oladipo Street, Abukon Stop, Off Temidire Road, Alagbado, Lagos";
 
   useEffect(() => {
     // 1-second loading splash screen
-    const timer = setTimeout(() => {
-      setLoading(false);
-      // Show ad 1 second after loading finishes
-      setTimeout(() => setShowAd(true), 1000);
-    }, 1000);
+    const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative overflow-hidden">
+    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative">
       
-      {/* AUTOMATIC 5TH ANNIVERSARY SVG VISUAL FLARE (Active from Aug 17, 2026 onwards) */}
-      {new Date() >= new Date('2026-08-17T00:00:00') && (
-        <div className="fixed inset-0 pointer-events-none z-[60] overflow-hidden">
-          <div className="absolute top-2 left-6 text-orange-500 animate-bounce duration-1000 opacity-80">
-            <Sparkles size={24} />
-          </div>
-          <div className="absolute top-12 left-20 text-yellow-500 animate-pulse opacity-75">
-            <PartyPopper size={28} />
-          </div>
-          <div className="absolute top-4 left-[32%] text-amber-600 animate-bounce delay-300 opacity-70">
-            <Gift size={26} />
-          </div>
-          <div className="absolute top-10 left-[48%] text-orange-600 animate-pulse delay-700 opacity-80">
-            <Award size={28} />
-          </div>
-          <div className="absolute top-3 right-[28%] text-yellow-500 animate-bounce delay-500 opacity-75">
-            <Sparkles size={22} />
-          </div>
-          <div className="absolute top-14 right-16 text-orange-500 animate-pulse duration-1000 opacity-80">
-            <PartyPopper size={30} />
-          </div>
-          <div className="absolute top-2 right-6 text-amber-600 animate-bounce delay-1000 opacity-75">
-            <Gift size={24} />
-          </div>
-        </div>
-      )}
-
-      {/* ADVERTISEMENT POPUP */}
-      {showAd && <PopupAd imageUrl="/my-ad-image.jpg" onClose={() => setShowAd(false)} />}
-
       {/* LOADING SPLASH SCREEN */}
       {loading && (
         <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center transition-opacity duration-500">
