@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Utensils, ShoppingBag, Plus, Minus, Check, Trash2, MapPin, Navigation, ArrowLeft } from "lucide-react";
 
-// Helper function for 5% anniversary discount
-const getDiscountedPrice = (price) => Math.round(price * 0.95);
+// Helper function for 10% discount
+const getDiscountedPrice = (price) => Math.round(price * 0.90);
 
 const categorizedMenu = {
   "Single Meal Packs": {
@@ -451,17 +451,17 @@ export default function Menu() {
     const finalSubtotal = calculateTotal();
     const originalSubtotal = calculateOriginalTotal();
 
-    let textPayload = "Hello Everyday Favichi_eats, I want to place a 5th Anniversary custom order from your website:\n\n";
+    let textPayload = "Hello Everyday Favichi_eats, I want to place a promotional order from your website:\n\n";
     itemsArray.forEach((item) => {
       if (item.mode === "variable") {
-        textPayload += "• " + item.name + " (" + item.size + ") — Old: ₦" + (item.originalPrice).toLocaleString() + " | New (5% Off): ₦" + item.price.toLocaleString() + "\n";
+        textPayload += "• " + item.name + " (" + item.size + ") — Old: ₦" + (item.originalPrice).toLocaleString() + " | New (10% Off): ₦" + item.price.toLocaleString() + "\n";
       } else {
-        textPayload += "• " + item.name + " x" + item.qty + " — Old: ₦" + (item.originalPrice * item.qty).toLocaleString() + " | New (5% Off): ₦" + (item.price * item.qty).toLocaleString() + "\n";
+        textPayload += "• " + item.name + " x" + item.qty + " — Old: ₦" + (item.originalPrice * item.qty).toLocaleString() + " | New (10% Off): ₦" + (item.price * item.qty).toLocaleString() + "\n";
       }
     });
 
     textPayload += "\nOriginal Total: ₦" + originalSubtotal.toLocaleString() + "\n";
-    textPayload += "Anniversary Total Payable (5% Off): ₦" + finalSubtotal.toLocaleString() + "\n\n";
+    textPayload += "Promo Total Payable (10% Off): ₦" + finalSubtotal.toLocaleString() + "\n\n";
     textPayload += "📍 DELIVERY DETAILS:\n";
     
     if (deliveryAddress.trim()) {
@@ -488,19 +488,17 @@ export default function Menu() {
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] pointer-events-none animate-bounce">
           <div className="bg-orange-600 text-white font-black text-xs md:text-sm px-5 py-3 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-2 transform transition duration-700 scale-110">
             <ShoppingBag size={18} className="animate-spin" />
-            <span>Added "{flyingItem}" (5% Off) to cart! 🛒</span>
+            <span>Added "{flyingItem}" (10% Off) to cart! 🛒</span>
           </div>
         </div>
       )}
 
       <div className="max-w-6xl mx-auto pb-32">
         
-        {/* AUTOMATIC 5TH ANNIVERSARY BANNER (Shows on/after Aug 17, 2026) */}
-        {new Date() >= new Date('2026-08-17T00:00:00') && (
-          <div className="bg-yellow-400 text-black font-black text-center py-4 mb-6 rounded-2xl shadow-lg transform -rotate-1 animate-pulse border-4 border-yellow-500">
-            🎉 CELEBRATING 5 YEARS OF EXCELLENCE! ENJOY 5% OFF ALL MENU ITEMS! 🎉
-          </div>
-        )}
+        {/* 10% PROMO BANNER */}
+        <div className="bg-yellow-400 text-black font-black text-center py-4 mb-6 rounded-2xl shadow-lg transform -rotate-1 animate-pulse border-4 border-yellow-500">
+          🔥 SPECIAL PROMO! ENJOY 10% OFF ALL MENU ITEMS TODAY! 🔥
+        </div>
 
         <div className="text-center mb-6">
           <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Build Your Custom Feast</h3>
@@ -574,7 +572,7 @@ export default function Menu() {
 
                 {item.type === "variable" ? (
                   <div className="mt-5 w-full">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Select Size Variant (5% Off)</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Select Size Variant (10% Off)</label>
                     <select
                       value={currentSelection?.size || ""}
                       onChange={(e) => {
@@ -642,7 +640,7 @@ export default function Menu() {
           
           {/* SELECTED ITEMS CART BREAKDOWN WITH CROSSED-OUT PRICES */}
           <div className="border-b border-slate-800 pb-3 max-h-36 overflow-y-auto no-scrollbar">
-            <h5 className="text-[10px] font-bold text-yellow-400 uppercase tracking-widest mb-2">Cart Items (5% Anniversary Discount Applied):</h5>
+            <h5 className="text-[10px] font-bold text-yellow-400 uppercase tracking-widest mb-2">Cart Items (10% Promo Discount Applied):</h5>
             <div className="space-y-1.5">
               {Object.values(selectedItems).map((item) => (
                 <div key={item.id + (item.size || '')} className="flex justify-between items-center text-xs">
@@ -714,7 +712,7 @@ export default function Menu() {
                   <ShoppingBag size={18} />
                 </div>
                 <div>
-                  <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">5% Anniversary Total</h5>
+                  <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">10% Promo Total</h5>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-slate-500 line-through text-xs font-semibold">
                       ₦{currentOriginalTotal.toLocaleString()}

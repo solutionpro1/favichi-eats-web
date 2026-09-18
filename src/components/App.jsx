@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, MessageSquare, X, Sparkles, PartyPopper, Gift, Award } from 'lucide-react';
+import { Phone, MapPin, MessageSquare, X } from 'lucide-react';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import Booking from './components/Booking';
@@ -16,7 +16,7 @@ const PopupAd = ({ imageUrl, onClose }) => (
       <button onClick={onClose} className="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full z-10 transition">
         <X size={20} />
       </button>
-      <img src={imageUrl} alt="Advertisement" className="w-full h-auto object-cover" />
+      <img src={imageUrl} alt="Promo Advertisement" className="w-full h-auto object-cover" />
     </div>
   </div>
 );
@@ -31,53 +31,26 @@ export default function App() {
     // 1-second loading splash screen
     const timer = setTimeout(() => {
       setLoading(false);
-      // Show ad 1 second after loading finishes
-      setTimeout(() => setShowAd(true), 1000);
+      
+      // 24-hour Popup Logic
+      const lastPopupTime = localStorage.getItem('favichi_popup_timestamp');
+      const currentTime = new Date().getTime();
+      const twentyFourHours = 24 * 60 * 60 * 1000; // in milliseconds
+
+      if (!lastPopupTime || currentTime - parseInt(lastPopupTime) > twentyFourHours) {
+        setTimeout(() => {
+          setShowAd(true);
+          localStorage.setItem('favichi_popup_timestamp', currentTime.toString());
+        }, 1000); // Wait 1 second after loading finishes before popping up
+      }
     }, 1000);
+    
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative overflow-hidden">
+    <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative">
       
-      {/* 5TH ANNIVERSARY SVG VISUAL FLARE (Rich Vector Confetti & Badges) */}
-      <div className="fixed inset-0 pointer-events-none z-[60] overflow-hidden">
-        {/* Top-left cluster */}
-        <div className="absolute top-2 left-6 text-orange-500 animate-bounce duration-1000 opacity-80">
-          <Sparkles size={24} />
-        </div>
-        <div className="absolute top-12 left-20 text-yellow-500 animate-pulse opacity-75">
-          <PartyPopper size={28} />
-        </div>
-        
-        {/* Upper middle cluster */}
-        <div className="absolute top-4 left-[32%] text-amber-600 animate-bounce delay-300 opacity-70">
-          <Gift size={26} />
-        </div>
-        <div className="absolute top-10 left-[48%] text-orange-600 animate-pulse delay-700 opacity-80">
-          <Award size={28} />
-        </div>
-
-        {/* Top-right cluster */}
-        <div className="absolute top-3 right-[28%] text-yellow-500 animate-bounce delay-500 opacity-75">
-          <Sparkles size={22} />
-        </div>
-        <div className="absolute top-14 right-16 text-orange-500 animate-pulse duration-1000 opacity-80">
-          <PartyPopper size={30} />
-        </div>
-        <div className="absolute top-2 right-6 text-amber-600 animate-bounce delay-1000 opacity-75">
-          <Gift size={24} />
-        </div>
-
-        {/* Mid-screen floating elements for depth */}
-        <div className="absolute top-44 left-4 text-orange-400/40 animate-pulse">
-          <Sparkles size={18} />
-        </div>
-        <div className="absolute top-56 right-6 text-yellow-500/40 animate-bounce">
-          <Sparkles size={20} />
-        </div>
-      </div>
-
       {/* ADVERTISEMENT POPUP */}
       {showAd && <PopupAd imageUrl="/my-ad-image.jpg" onClose={() => setShowAd(false)} />}
 
