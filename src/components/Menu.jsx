@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Utensils, ShoppingBag, Plus, Minus, Check, Trash2, MapPin, Navigation, ArrowLeft } from "lucide-react";
 
-// Helper function for 10% discount
-const getDiscountedPrice = (price) => Math.round(price * 0.90);
-
 const categorizedMenu = {
   "Single Meal Packs": {
     title: "Single Portion Meal Packs",
@@ -312,10 +309,9 @@ export default function Menu() {
     }, 900);
   };
 
-  const handleSizeChange = (itemId, itemName, size, originalPrice) => {
+  const handleSizeChange = (itemId, itemName, size, price) => {
     if (size) {
       triggerFlyAnimation(itemName);
-      const discountedPrice = getDiscountedPrice(originalPrice);
       setSelectedItems((prev) => ({
         ...prev,
         [itemId]: { 
@@ -323,8 +319,7 @@ export default function Menu() {
           name: itemName, 
           mode: "variable", 
           size, 
-          price: discountedPrice, 
-          originalPrice: originalPrice, 
+          price, 
           qty: 1 
         }
       }));
@@ -337,8 +332,7 @@ export default function Menu() {
     }
   };
 
-  const handleQtyChange = (itemId, itemName, originalPrice, unit, change, minQty = 1) => {
-    const discountedPrice = getDiscountedPrice(originalPrice);
+  const handleQtyChange = (itemId, itemName, price, unit, change, minQty = 1) => {
     if (change > 0) {
       triggerFlyAnimation(itemName);
     }
@@ -348,8 +342,7 @@ export default function Menu() {
         id: itemId, 
         name: itemName, 
         mode: "flat", 
-        price: discountedPrice, 
-        originalPrice: originalPrice, 
+        price, 
         unit, 
         qty: 0 
       };
@@ -364,7 +357,7 @@ export default function Menu() {
       if (newQty <= 0) {
         delete updated[itemId];
       } else {
-        updated[itemId] = { ...current, qty: newQty, price: discountedPrice, originalPrice: originalPrice };
+        updated[itemId] = { ...current, qty: newQty, price };
       }
       return updated;
     });
@@ -380,10 +373,6 @@ export default function Menu() {
 
   const calculateTotal = () => {
     return Object.values(selectedItems).reduce((sum, item) => sum + (item.price * item.qty), 0);
-  };
-
-  const calculateOriginalTotal = () => {
-    return Object.values(selectedItems).reduce((sum, item) => sum + (item.originalPrice * item.qty), 0);
   };
 
   const handleTouchStart = (e) => {
@@ -449,19 +438,17 @@ export default function Menu() {
     if (itemsArray.length === 0) return;
 
     const finalSubtotal = calculateTotal();
-    const originalSubtotal = calculateOriginalTotal();
 
-    let textPayload = "Hello Everyday Favichi_eats, I want to place a promotional order from your website:\n\n";
+    let textPayload = "Hello Everyday Favichi_eats, I want to place a custom order from your website:\n\n";
     itemsArray.forEach((item) => {
       if (item.mode === "variable") {
-        textPayload += "• " + item.name + " (" + item.size + ") — Old: ₦" + (item.originalPrice).toLocaleString() + " | New (10% Off): ₦" + item.price.toLocaleString() + "\n";
+        textPayload += "• " + item.name + " (" + item.size + ") — ₦" + item.price.toLocaleString() + "\n";
       } else {
-        textPayload += "• " + item.name + " x" + item.qty + " — Old: ₦" + (item.originalPrice * item.qty).toLocaleString() + " | New (10% Off): ₦" + (item.price * item.qty).toLocaleString() + "\n";
+        textPayload += "• " + item.name + " x" + item.qty + " — ₦" + (item.price * item.qty).toLocaleString() + "\n";
       }
     });
 
-    textPayload += "\nOriginal Total: ₦" + originalSubtotal.toLocaleString() + "\n";
-    textPayload += "Promo Total Payable (10% Off): ₦" + finalSubtotal.toLocaleString() + "\n\n";
+    textPayload += "\nTotal Payable Amount: ₦" + finalSubtotal.toLocaleString() + "\n\n";
     textPayload += "📍 DELIVERY DETAILS:\n";
     
     if (deliveryAddress.trim()) {
@@ -478,7 +465,6 @@ export default function Menu() {
 
   const currentCategory = categorizedMenu[activeTab];
   const currentTotal = calculateTotal();
-  const currentOriginalTotal = calculateOriginalTotal();
 
   return (
     <section className="py-12 bg-white/40 px-4 md:px-6 border-y border-orange-100 relative overflow-hidden">
@@ -488,18 +474,12 @@ export default function Menu() {
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] pointer-events-none animate-bounce">
           <div className="bg-orange-600 text-white font-black text-xs md:text-sm px-5 py-3 rounded-2xl shadow-2xl border-2 border-white flex items-center gap-2 transform transition duration-700 scale-110">
             <ShoppingBag size={18} className="animate-spin" />
-            <span>Added "{flyingItem}" (10% Off) to cart! 🛒</span>
+            <span>Added "{flyingItem}" to cart! 🛒</span>
           </div>
         </div>
       )}
 
       <div className="max-w-6xl mx-auto pb-32">
-        
-        {/* 10% PROMO BANNER */}
-        <div className="bg-yellow-400 text-black font-black text-center py-4 mb-6 rounded-2xl shadow-lg transform -rotate-1 animate-pulse border-4 border-yellow-500">
-          🔥 SPECIAL PROMO! ENJOY 10% OFF ALL MENU ITEMS TODAY! 🔥
-        </div>
-
         <div className="text-center mb-6">
           <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Build Your Custom Feast</h3>
           <p className="text-sm text-slate-500 mt-2 max-w-xl mx-auto">
@@ -572,7 +552,7 @@ export default function Menu() {
 
                 {item.type === "variable" ? (
                   <div className="mt-5 w-full">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Select Size Variant (10% Off)</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Select Size Variant</label>
                     <select
                       value={currentSelection?.size || ""}
                       onChange={(e) => {
@@ -582,14 +562,11 @@ export default function Menu() {
                       className="w-full bg-slate-50 border border-slate-200 text-xs font-semibold p-2.5 rounded-xl text-slate-700 focus:outline-none focus:border-orange-500 focus:bg-white transition-all shadow-inner"
                     >
                       <option value="">-- Choose Liters / Price --</option>
-                      {Object.entries(item.sizes).map(([size, originalPrice]) => {
-                        const discounted = getDiscountedPrice(originalPrice);
-                        return (
-                          <option key={size} value={size}>
-                            {size} Bowl — ₦{discounted.toLocaleString()} (was ₦{originalPrice.toLocaleString()})
-                          </option>
-                        );
-                      })}
+                      {Object.entries(item.sizes).map(([size, price]) => (
+                        <option key={size} value={size}>
+                          {size} Bowl — ₦{price.toLocaleString()}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 ) : (
@@ -599,8 +576,7 @@ export default function Menu() {
                         {item.unit ? "Price per " + item.unit : "Price"}
                       </span>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-slate-400 line-through text-xs font-semibold">₦{item.price.toLocaleString()}</span>
-                        <span className="text-orange-600 font-black text-sm">₦{getDiscountedPrice(item.price).toLocaleString()}</span>
+                        <span className="text-orange-600 font-black text-sm">₦{item.price.toLocaleString()}</span>
                       </div>
                       {item.minQty > 1 && (
                         <span className="text-[9px] bg-amber-50 text-amber-700 font-black px-1.5 py-0.5 rounded border border-amber-100/60 w-max tracking-tight mt-1 block">
@@ -638,9 +614,8 @@ export default function Menu() {
       {currentTotal > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-3xl bg-slate-900 border border-slate-800 text-white shadow-2xl rounded-2xl p-4 md:p-5 z-50 flex flex-col gap-4 transition-all duration-500 transform animate-slideUp">
           
-          {/* SELECTED ITEMS CART BREAKDOWN WITH CROSSED-OUT PRICES */}
           <div className="border-b border-slate-800 pb-3 max-h-36 overflow-y-auto no-scrollbar">
-            <h5 className="text-[10px] font-bold text-yellow-400 uppercase tracking-widest mb-2">Cart Items (10% Promo Discount Applied):</h5>
+            <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Cart Items:</h5>
             <div className="space-y-1.5">
               {Object.values(selectedItems).map((item) => (
                 <div key={item.id + (item.size || '')} className="flex justify-between items-center text-xs">
@@ -648,10 +623,7 @@ export default function Menu() {
                     {item.name} {item.size ? `(${item.size})` : `x${item.qty}`}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-slate-500 line-through">
-                      ₦{(item.originalPrice * (item.qty || 1)).toLocaleString()}
-                    </span>
-                    <span className="text-orange-400 font-bold">
+                    <span className="text-white font-bold">
                       ₦{(item.price * (item.qty || 1)).toLocaleString()}
                     </span>
                   </div>
@@ -712,12 +684,9 @@ export default function Menu() {
                   <ShoppingBag size={18} />
                 </div>
                 <div>
-                  <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">10% Promo Total</h5>
+                  <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Amount</h5>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-slate-500 line-through text-xs font-semibold">
-                      ₦{currentOriginalTotal.toLocaleString()}
-                    </span>
-                    <span className="text-lg font-black text-orange-400">
+                    <span className="text-lg font-black text-white">
                       ₦{currentTotal.toLocaleString()}
                     </span>
                   </div>

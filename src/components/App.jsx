@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MapPin, MessageSquare, X } from 'lucide-react';
+import { Phone, MapPin, MessageSquare } from 'lucide-react';
 import Hero from './components/Hero';
 import Menu from './components/Menu';
 import Booking from './components/Booking';
@@ -9,51 +9,20 @@ import Footer from './components/Footer';
 import FloatingSocials from './components/FloatingSocials';
 import logoAsset from './assets/logo.png';
 
-// Popup Component
-const PopupAd = ({ imageUrl, onClose }) => (
-  <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn">
-    <div className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden animate-zoomIn">
-      <button onClick={onClose} className="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full z-10 transition">
-        <X size={20} />
-      </button>
-      <img src={imageUrl} alt="Promo Advertisement" className="w-full h-auto object-cover" />
-    </div>
-  </div>
-);
-
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [showAd, setShowAd] = useState(false);
   const whatsappNumber = "2348154064345";
   const businessAddress = "10 Lawal Oladipo Street, Abukon Stop, Off Temidire Road, Alagbado, Lagos";
 
   useEffect(() => {
     // 1-second loading splash screen
-    const timer = setTimeout(() => {
-      setLoading(false);
-      
-      // 24-hour Popup Logic
-      const lastPopupTime = localStorage.getItem('favichi_popup_timestamp');
-      const currentTime = new Date().getTime();
-      const twentyFourHours = 24 * 60 * 60 * 1000; // in milliseconds
-
-      if (!lastPopupTime || currentTime - parseInt(lastPopupTime) > twentyFourHours) {
-        setTimeout(() => {
-          setShowAd(true);
-          localStorage.setItem('favichi_popup_timestamp', currentTime.toString());
-        }, 1000); // Wait 1 second after loading finishes before popping up
-      }
-    }, 1000);
-    
+    const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="min-h-screen bg-orange-50/40 text-slate-800 font-sans antialiased relative">
       
-      {/* ADVERTISEMENT POPUP */}
-      {showAd && <PopupAd imageUrl="/my-ad-image.jpg" onClose={() => setShowAd(false)} />}
-
       {/* LOADING SPLASH SCREEN */}
       {loading && (
         <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center transition-opacity duration-500">
